@@ -16,6 +16,7 @@
     "chokidar": "^4.0.3",
     "detect-libc": "^1.0.3",
     "fill-range": "^7.1.1",
+    "fullcalendar": "^6.1.19",
     "immutable": "^5.1.4",
     "is-extglob": "^2.1.1",
     "is-glob": "^4.0.3",

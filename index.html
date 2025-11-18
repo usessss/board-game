@@ -4,9 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>메인페이지</title>
+  <link rel="stylesheet" href="./styles/index.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script>
 </head>
 
 <body>
-    
+    <header>
+      <div>
+        <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
+      </div>
+    </header>
+
+    <div class="search-wrapper">
+      <div class="input-holder">
+        <input type="text" class="search-input" placeholder="찾으실 이름을 입력하세요" />
+        <button class="search-icon search-toggle"><span></span></button>
+      </div>
+      <span class="close search-toggle"></span>
+    </div>
+
+    <div id='calendar'></div>
+
+    <script>
+      // 캘린더
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          locale: 'ko', // ★ 이거 한 줄 추가하면 월/요일 전부 한글됨
+          dayCellContent: function(arg) {
+            return { html: arg.dayNumberText.replace('일', '') }; // '일' 제거
+          }
+        });
+        calendar.render();
+      });
+
+      // 검색창
+      var $searchToggle = $('.search-toggle');
+
+      $searchToggle.on('click', function (e) {
+        var $target = $(this);
+        var $container = $target.closest('.search-wrapper');
+        
+        if (!$container.hasClass('active')) {
+          $container.addClass('active');
+          e.preventDefault();
+        } else if ($container.hasClass('active') && $target.closest('.input-holder').length == 0) {
+          $container.removeClass('active');
+          $container.find('.search-input').val('');
+        }
+      });
+    </script>
 </body>
 </html>

@@ -1,0 +1,196 @@
+header > div {
+  display: flex;
+  justify-content: center;
+}
+
+header > div > img {
+    width: 130px;
+    height: auto;
+}
+
+body {
+	background: #76c5f6;
+}
+::selection {
+	background: #212129;
+}
+.search-wrapper {
+	position: absolute;
+	top: 15%;
+	/* 박스 요소 가로,세로 중앙 정렬 */
+	/* -webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%); */
+}
+.search-wrapper .input-holder {
+	height: 55px;
+	width: 55px;
+	overflow: hidden;
+	background: rgba(255,255,255,0);
+	border-radius:6px;
+	position: relative;
+	transition: all .3s ease-in-out;
+}
+/* search 버튼 활성화시 */
+.search-wrapper.active .input-holder {
+	width: 290px;
+	border-radius: 50px;
+	background: rgba(0,0,0,.5);
+	transition: all .5s cubic-bezier(0.0, 0.105, 0.035, 1.570);
+}
+.search-wrapper .input-holder .search-input {
+	width: 100%;
+	height: 34px;
+	padding: 0 70px 0 20px;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: transparent;
+	box-sizing: border-box;
+	border: 0;
+	outline: 0;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 20px;
+	color: #fff;
+	transform: translate(0, 60px);
+	transition: all .3s cubic-bezier(0.000, 0.105, 0.035, 1.570);
+	transition-delay: 0.3s;
+}
+.search-wrapper.active .input-holder .search-input {
+	opacity: 1;
+	transform: translate(0, 12px);
+}
+.search-wrapper .input-holder .search-icon {
+	width: 55px;
+	height: 55px;
+	border: 0;
+	outline: 0;
+	border-radius: 6px;
+	background: #fff;
+	cursor: pointer;
+	padding: 0;
+	position: relative;
+	z-index: 2;
+	float: right;
+	transition: all .3s ease-in-out;
+}
+.search-wrapper.active .input-holder .search-icon {
+	width: 60px;
+	height: 36px;
+	margin: 10px;
+	border-radius: 30px;
+}
+.search-wrapper .input-holder .search-icon span {
+	width: 22px;
+	height: 22px;
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	transform: rotate(45deg);
+	transition: all .4s cubic-bezier(0.650, -0.600, 0.240, 1.650);
+}
+.search-wrapper.active .input-holder .search-icon span {
+	transform: rotate(315deg);
+}
+.search-wrapper .input-holder .search-icon span::before,
+.search-wrapper .input-holder .search-icon span::after {
+	position: absolute;
+	content:'';
+}
+.search-wrapper .input-holder .search-icon span::before {
+	width: 4px;
+	height: 11px;
+	left: 9px;
+	top: 18px;
+	border-radius: 2px;
+	background: #FE5F55;
+}
+.search-wrapper .input-holder .search-icon span::after {
+	width: 14px;
+	height: 14px;
+	left: 0;
+	top: 0;
+	border-radius: 16px;
+	border: 4px solid #FE5F55;
+}
+.search-wrapper .close {
+	position: absolute;
+	z-index: 1;
+	width: 25px;
+	height: 25px;
+	top: 24px;
+	right: 20px;
+	cursor: pointer;
+	/* 시계 반대방향으로 돌려놓고 active 가 될 때 시계방향으로 회전시킴*/
+	transform: rotate(-180deg);
+	transition: all .3s cubic-bezier(0.285, -0.450, 0.935, 0.110);
+	transition-delay: 0.2s;
+}
+.search-wrapper.active .close {
+	right: -50px;
+	transform: rotate(45deg);
+	transition: all .6s cubic-bezier(0.000, 0.105, 0.035, 1.570);
+	transition-delay: 0.5s;
+}
+.search-wrapper .close::before,
+.search-wrapper .close::after {
+	position: absolute;
+	content: "";
+	background: #FE5F55;
+	border-radius: 2px;
+}
+/* 닫기 X 버튼 십자가로 만든로 rotate 시킴 */
+.search-wrapper .close::before {
+	width: 5px;
+	height: 25px;
+	left: 10px;
+	top: 0;
+}
+.search-wrapper .close::after {
+	width: 25px;
+	height: 5px;
+	left: 0;
+	top: 10px;
+}
+
+/* 캘린더 */
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 1.5em;
+    margin-top: 5em;
+}
+
+.fc .fc-button-primary {
+    background-color: #2d91f5;
+    border-color: #c5e2ff;
+    color: var(--fc-button-text-color);
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 10px;
+    margin-top: 5em;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.2rem;
+    margin: 0px;
+    color: #09459b;
+}
+
+.fc .fc-button-primary:disabled {
+    background-color: #0156ab;
+    border-color: #000000;
+    color: var(--fc-button-text-color);
+}
+
+.fc td, .fc th {
+    padding: 0px;
+    vertical-align: top;
+    color: #1247da;
+}
+
+.fc-direction-ltr {
+    direction: ltr;
+    text-align: left;
+    height: 557px;
+}
