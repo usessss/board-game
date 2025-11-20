@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>월별 출첵 한눈에 보기(검색 기능)</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="./styles/index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Smooch+Sans:wght@100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script>
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <header>
+      <div>
+        <a href="./index.html">
+          <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
+        </a>
+      </div>
+    </header>
+
+    <!-- 메뉴 토글 버튼 -->
+    <button class="menu-toggle" aria-label="메뉴 열기">🍔</button>
+
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" aria-hidden="true">
+      <div class="side-menu__header">
+        <button class="side-menu__close" aria-label="메뉴 닫기">❌</button>
+      </div>
+      
+      <div class="side-menu__body">
+        <ul>
+          <li><a href="#">👀 월별로 출석체크 한눈에 보기</a></li>
+          <li><a href="#">💸 일참비/월정액 입금하기</a></li>
+          <li><a href="#">🎯 봉우리 아지트 위치보기</a></li>
+          <li><a href="#">🚘 주차 가능한 곳 보기</a></li>
+        </ul>
+
+        <button id="attendance-btn" class="btn">
+          출석 체크
+        </button>
+      </div>
+    </nav>
+    <div class="side-overlay" tabindex="-1"></div>
+
+    <!-- 검색 -->
+    <div class="search-wrapper">
+      <div class="input-holder">
+        <input type="text" class="search-input" placeholder="찾으실 이름을 입력하세요" />
+        <button class="search-icon search-toggle"><span></span></button>
+      </div>
+      <span class="close search-toggle"></span>
+    </div>
+
+    <div class="month-selector btn-group" style="margin: 94px 0 10px 20px;">
+      <button 
+        type="button" class="month-btn btn btn-secondary dropdown-toggle" 
+        data-bs-toggle="dropdown" aria-expanded="false"
+      >
+        출석 체크 확인 월 선택
+      </button>
+      <ul class="dropdown-menu month-list" style="padding: 10px;">
+        <li><a class="dropdown-item" href="#">1월</a></li>
+        <li><a class="dropdown-item" href="#">2월</a></li>
+        <li><a class="dropdown-item" href="#">3월</a></li>
+        <li><a class="dropdown-item" href="#">4월</a></li>
+        <li><a class="dropdown-item" href="#">5월</a></li>
+        <li><a class="dropdown-item" href="#">6월</a></li>
+        <li><a class="dropdown-item" href="#">7월</a></li>
+        <li><a class="dropdown-item" href="#">8월</a></li>
+        <li><a class="dropdown-item" href="#">9월</a></li>
+        <li><a class="dropdown-item" href="#">10월</a></li>
+        <li><a class="dropdown-item" href="#">11월</a></li>
+        <li><a class="dropdown-item" href="#">12월</a></li>
+      </ul>
+    </div>
+
+    <!-- 검색 결과 출력 영역 -->
+    <div id="search-result" style="padding:20px; font-size:18px;"></div>
+
+    <script>
+      // 사이드메뉴 토글
+      (function(){
+        var $menuToggle = $('.menu-toggle');
+        var $side = $('.side-menu');
+        var $overlay = $('.side-overlay');
+
+        function openMenu(){
+          $side.addClass('open').attr('aria-hidden','false');
+          $overlay.addClass('show');
+        }
+        function closeMenu(){
+          $side.removeClass('open').attr('aria-hidden','true');
+          $overlay.removeClass('show');
+        }
+
+        $menuToggle.on('click', openMenu);
+        $('.side-menu__close, .side-overlay').on('click', closeMenu);
+      })();
+
+      // 검색창
+      var $searchToggle = $('.search-toggle');
+
+      $searchToggle.on('click', function (e) {
+        var $target = $(this);
+        var $container = $target.closest('.search-wrapper');
+        
+        if (!$container.hasClass('active')) {
+          $container.addClass('active');
+          e.preventDefault();
+        } else if ($container.hasClass('active') && $target.closest('.input-holder').length == 0) {
+          $container.removeClass('active');
+          $container.find('.search-input').val('');
+        }
+      });
+
+      // 월 선택 드롭다운
+      const monthBtn = document.querySelector('.month-btn');
+      const monthItems = document.querySelectorAll('.month-list a');
+
+      monthItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault(); // a 태그 기본 동작 막기
+          monthBtn.textContent = item.textContent; // 버튼에 선택한 월 반영
+        });
+      });
+
+      // ======================
+      // 🔍 출석 검색 기능
+      // ======================
+      function getKoreanWeekday(dateStr) {
+        const day = new Date(dateStr).getDay();
+        return ["일", "월", "화", "수", "목", "금", "토"][day];
+      }
+
+      // 요일별 가격
+      function getPrice(weekday) {
+        return weekday === "토" || weekday === "일" ? 8000 : 5000;
+      }
+
+      // 검색 실행
+      function searchAttendance() {
+        const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
+
+        const searchName = $(".search-input").val().trim();
+        const selectedMonthText = $(".month-btn").text(); // "11월"
+        if (!searchName) return alert("검색할 이름을 입력해주세요!");
+        if (selectedMonthText.includes("선택")) return alert("월을 선택해주세요!");
+
+        const selectedMonth = parseInt(selectedMonthText.replace("월", ""));
+
+        let results = []; // {date, weekday, price}
+
+        // 날짜 순회
+        Object.keys(saved).forEach(dateStr => {
+          const date = new Date(dateStr);
+          const month = date.getMonth() + 1;
+
+          if (month === selectedMonth) {
+            const names = saved[dateStr] || [];
+            names.forEach(name => {
+              if (name.includes(searchName)) {
+                const weekday = getKoreanWeekday(dateStr);
+                results.push({
+                  date: dateStr,
+                  weekday,
+                  price: getPrice(weekday)
+                });
+              }
+            });
+          }
+        });
+
+        const resultDiv = $("#search-result");
+        resultDiv.empty();
+
+        if (results.length === 0) {
+          resultDiv.html("<p>검색 결과가 없습니다.</p>");
+          return;
+        }
+
+        // 표 생성
+        let tableHTML = `
+          <table border="1" cellpadding="10" style="border-collapse:collapse; width:300px;">
+            <thead>
+              <tr style="background:#f3f3f3;">
+                <th>날짜</th>
+                <th>요일</th>
+                <th>금액</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <a href="/money.html" style="text-decoration: none; color: #2B6CB0;">일참비/월정액 입금하러 가기</a>
+        `;
+
+        let total = 0;
+
+        results.forEach(item => {
+          tableHTML += `
+            <tr>
+              <td>${item.date}</td>
+              <td>${item.weekday}요일</td>
+              <td>${item.price.toLocaleString()}원</td>
+            </tr>
+          `;
+          total += item.price;
+        });
+
+        tableHTML += `
+            </tbody>
+          </table>
+          <div style="margin-top:15px; font-weight:bold; font-size:20px;">
+            총 <span style="color:#d9534f">${results.length}</span>번 출석<br>
+            합계: <span style="color:#0275d8">${total.toLocaleString()}원</span>
+          </div>
+        `;
+
+        resultDiv.html(tableHTML);
+      }
+
+      // ======================
+      // 🔍 검색 버튼 클릭 감지
+      // ======================
+
+      $(".search-toggle").on("click", function(e) {
+        // 검색 input 열고 닫는 기능 유지하면서…
+        
+        const container = $(this).closest('.search-wrapper');
+
+        // 닫히는 순간 검색 실행
+        if (container.hasClass('active')) {
+          searchAttendance();
+        }
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

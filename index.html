@@ -4,42 +4,80 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>메인페이지</title>
+
   <link rel="stylesheet" href="./styles/index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Smooch+Sans:wght@100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script>
 </head>
 
 <body>
+    <!-- 헤더 -->
     <header>
       <div>
-        <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
+        <a href="./index.html">
+          <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
+        </a>
       </div>
     </header>
 
-    <div class="search-wrapper">
-      <div class="input-holder">
-        <input type="text" class="search-input" placeholder="찾으실 이름을 입력하세요" />
-        <button class="search-icon search-toggle"><span></span></button>
+    <!-- 메뉴 토글 버튼 -->
+    <button class="menu-toggle" aria-label="메뉴 열기">🍔</button>
+
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" aria-hidden="true">
+      <div class="side-menu__header">
+        <button class="side-menu__close" aria-label="메뉴 닫기">❌</button>
       </div>
-      <span class="close search-toggle"></span>
-    </div>
+      
+      <div class="side-menu__body">
+        <ul>
+          <li>
+            <a href="/place.html">
+              👀 월별로 출석체크 한눈에 보기
+            </a>
+          </li>
+          <li>
+            <a href="/money.html">
+              💸 일참비/월정액 입금하기
+            </a>
+          </li>
+          <li><a href="#">🎯 봉우리 아지트 위치보기</a></li>
+          <li><a href="#">🚘 주차 가능한 곳 보기</a></li>
+        </ul>
+
+        <button id="attendance-btn" class="btn">
+          출석 체크
+        </button>
+      </div>
+    </nav>
+    <div class="side-overlay" tabindex="-1"></div>
 
     <div id='calendar'></div>
 
     <script>
-      // 캘린더
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          locale: 'ko', // ★ 이거 한 줄 추가하면 월/요일 전부 한글됨
-          dayCellContent: function(arg) {
-            return { html: arg.dayNumberText.replace('일', '') }; // '일' 제거
-          }
-        });
-        calendar.render();
-      });
+      // 사이드메뉴 토글
+      (function(){
+        var $menuToggle = $('.menu-toggle');
+        var $side = $('.side-menu');
+        var $overlay = $('.side-overlay');
+
+        function openMenu(){
+          $side.addClass('open').attr('aria-hidden','false');
+          $overlay.addClass('show');
+        }
+        function closeMenu(){
+          $side.removeClass('open').attr('aria-hidden','true');
+          $overlay.removeClass('show');
+        }
+
+        $menuToggle.on('click', openMenu);
+        $('.side-menu__close, .side-overlay').on('click', closeMenu);
+      })();
 
       // 검색창
       var $searchToggle = $('.search-toggle');
@@ -55,6 +93,168 @@
           $container.removeClass('active');
           $container.find('.search-input').val('');
         }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // ==========================
+        // 1. 저장된 출석 불러오기 함수
+        // ==========================
+        function loadSavedAttendance() {
+          const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
+
+          Object.keys(saved).forEach(date => {
+            let names = saved[date];
+            // 이전 버전 호환: 단일 문자열이면 배열로 변환
+            if (!Array.isArray(names)) names = names ? [names] : [];
+            names.forEach(name => {
+              calendar.addEvent({
+                title: name,
+                start: date,
+                allDay: true
+              });
+            });
+          });
+        }
+
+        // ==========================
+        // 2. 출석 저장 함수
+        // ==========================
+        function saveAttendance(name, date) {
+          const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
+          saved[date] = saved[date] || [];
+          // 이전에 단일 문자열로 저장된 경우 처리
+          if (!Array.isArray(saved[date])) saved[date] = saved[date] ? [saved[date]] : [];
+          // 동명이인 허용: 중복 검사 없이 무조건 추가
+          saved[date].push(name);
+          localStorage.setItem("attendance", JSON.stringify(saved));
+        }
+
+        // 이름 수정
+        function updateAttendance(date, oldName, newName) {
+          const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
+          if (!saved[date]) return;
+
+          const idx = saved[date].indexOf(oldName);
+          if (idx !== -1) saved[date][idx] = newName;
+
+          localStorage.setItem("attendance", JSON.stringify(saved));
+        }
+
+        // 이름 삭제
+        function removeAttendance(date, name) {
+          const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
+          if (!saved[date]) return;
+
+          saved[date] = saved[date].filter(n => n !== name);
+
+          if (saved[date].length === 0) delete saved[date];
+
+          localStorage.setItem("attendance", JSON.stringify(saved));
+        }
+
+        // ==========================
+        // 3. FullCalendar 설정
+        // ==========================
+        let calendarEl = document.getElementById("calendar");
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          locale: "ko",          // 한국어
+          height: "auto",
+          dayHeaderFormat: { weekday: "short" },  // 요일: 월, 화, 수
+          dayCellContent(info) {
+            return { html: `<span>${info.date.getDate()}</span>` };
+          },
+          headerToolbar: {
+            left: "prev,next",
+            center: "title",
+            right: ""            // today 버튼 제거
+          },
+
+          dateClick: function(info) {
+            const clickedDate = info.dateStr;   // yyyy-mm-dd
+
+            let name = prompt(clickedDate + " 출석 이름을 입력하세요.");
+
+            if (!name) return;
+
+            // 1) 캘린더에 표시
+            calendar.addEvent({
+              title: name,
+              start: clickedDate,
+              allDay: true
+            });
+
+            // 2) 로컬스토리지 저장
+            saveAttendance(name, clickedDate);
+
+            alert("등록 완료!");
+          },
+
+          dayMaxEvents: 3,
+          moreLinkText: function(args) {
+            return "➕ 더보기";   // 숫자 제거하고 텍스트만 출력
+          },
+          moreLinkClick: "popover",
+
+          // 이벤트 클릭해서 수정/삭제 기능
+          eventClick: function(info) {
+            const oldName = info.event.title;
+            const date = info.event.startStr;
+
+            const newName = prompt(
+              "이름 수정 또는 삭제가 가능합니다.\n수정하려면 새 이름 입력\n삭제하려면 빈칸 or 취소",
+              oldName
+            );
+
+            // 삭제
+            if (newName === null || newName.trim() === "") {
+              info.event.remove();
+              removeAttendance(date, oldName);
+              return;
+            }
+
+            // 수정
+            info.event.setProp("title", newName);
+            updateAttendance(date, oldName, newName);
+          }
+        });
+
+        calendar.render();
+
+        // 저장된 출석 로딩
+        loadSavedAttendance();
+
+        // ==========================
+        // 4. 출석 버튼 이벤트
+        // ==========================
+        $("#attendance-btn").on("click", function (e) {
+          e.stopPropagation(); // 다른 클릭 이벤트 막기
+
+          let name = prompt("출석체크할 이름을 입력해주세요.");
+
+          if (!name) return alert("이름을 입력해야 합니다!");
+
+          let today = new Date().toISOString().split("T")[0];
+
+          // 달력 표시
+          calendar.addEvent({
+            title: name,
+            start: today,
+            allDay: true,
+          });
+
+          // 로컬 저장
+          saveAttendance(name, today);
+
+          // 서버 저장 (선택)
+          fetch("http://localhost:3000/attendance", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ date: today, name }),
+          });
+
+          alert("출석 완료!");
+        });
       });
     </script>
 </body>

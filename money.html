@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>일참/월정액 입금 페이지</title>
+
+  <link rel="stylesheet" href="./styles/index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Smooch+Sans:wght@100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script>
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <header>
+      <div>
+        <a href="./index.html">
+          <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
+        </a>
+      </div>
+    </header>
+
+    <!-- 메뉴 토글 버튼 -->
+    <button class="menu-toggle" aria-label="메뉴 열기">🍔</button>
+
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" aria-hidden="true">
+      <div class="side-menu__header">
+        <button class="side-menu__close" aria-label="메뉴 닫기">❌</button>
+      </div>
+      
+      <div class="side-menu__body">
+        <ul>
+          <li>
+            <a href="/place.html">
+              👀 월별로 출석체크 한눈에 보기
+            </a>
+          </li>
+          <li><a href="#">💸 일참비/월정액 입금하기</a></li>
+          <li><a href="#">🎯 봉우리 아지트 위치보기</a></li>
+          <li><a href="#">🚘 주차 가능한 곳 보기</a></li>
+        </ul>
+
+        <button id="attendance-btn" class="btn">
+          출석 체크
+        </button>
+      </div>
+    </nav>
+    <div class="side-overlay" tabindex="-1"></div>
+
+    <!-- 입금 안내 영역 -->
+    <section class="pay-section">
+      <h3>💸 카카오뱅크 장조현</h3>
+
+      <!-- 계좌번호 표시 및 복사 버튼 -->
+      <div class="account-box">
+        <div>
+          <img src="/images/kakao.png" alt="카카오뱅크 로고" class="kakao-logo">
+        </div>
+        <div>
+          <span id="account-number">3333-19-7413668</span>
+        </div>
+      </div>
+
+      <button class="creepy-btn" style="margin: 10px;">
+        <span class="creepy-btn__eyes">
+          <span class="creepy-btn__eye">
+            <span class="creepy-btn__pupil"></span>
+          </span>
+          <span class="creepy-btn__eye">
+            <span class="creepy-btn__pupil"></span>
+          </span>
+        </span>
+
+        <span class="creepy-btn__cover">
+          복사하기
+        </span>
+      </button>
+
+      <p class="pay-desc">
+        👇 사용하시는 은행을 선택하시면 입금 화면으로 이동해요❕
+      </p>
+
+      <!-- 은행 아이콘 -->
+      <div class="bank-icons">
+        <div class="bank-icon-flex">
+          <div>
+            <img src="./images/toss.jpg" alt="토스 로고">
+          </div>
+          <div>
+            <span>토스</span>
+          </div>
+        </div>
+
+        <div class="bank-icon-flex">
+          <div>
+            <img src="./images/kakao.png" alt="카카오뱅크 로고">
+          </div>
+          <div>
+            <span>카카오뱅크</span>
+          </div>
+        </div>
+
+        <div class="bank-icon-flex">
+          <div>
+            <img src="./images/kb.png" alt="KB 로고">
+          </div>
+          <div>
+            <span>국민은행</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // 사이드메뉴 토글
+      (function(){
+        var $menuToggle = $('.menu-toggle');
+        var $side = $('.side-menu');
+        var $overlay = $('.side-overlay');
+
+        function openMenu(){
+          $side.addClass('open').attr('aria-hidden','false');
+          $overlay.addClass('show');
+        }
+        function closeMenu(){
+          $side.removeClass('open').attr('aria-hidden','true');
+          $overlay.removeClass('show');
+        }
+
+        $menuToggle.on('click', openMenu);
+        $('.side-menu__close, .side-overlay').on('click', closeMenu);
+      })();
+
+      // 검색창
+      var $searchToggle = $('.search-toggle');
+
+      $searchToggle.on('click', function (e) {
+        var $target = $(this);
+        var $container = $target.closest('.search-wrapper');
+        
+        if (!$container.hasClass('active')) {
+          $container.addClass('active');
+          e.preventDefault();
+        } else if ($container.hasClass('active') && $target.closest('.input-holder').length == 0) {
+          $container.removeClass('active');
+          $container.find('.search-input').val('');
+        }
+      });
+
+      // 계좌번호 복사 기능
+      document.querySelector('.creepy-btn').addEventListener('click', function () {
+        const accountNumber = document.querySelector('#account-number').textContent.trim();
+
+        navigator.clipboard.writeText(accountNumber).then(() => {
+          alert('계좌번호가 복사되었습니다!');
+        });
+      });
+
+      // 은행 이동 기능
+      document.querySelectorAll('.bank-icon-flex').forEach(function (item) {
+        item.addEventListener('click', function () {
+          const bankName = this.querySelector('span').textContent.trim();
+
+          if (bankName === '토스') {
+            window.location.href = 'https://toss.im/transfer';
+          }
+          else if (bankName === '카카오뱅크') {
+            window.location.href = 'https://www.kakaobank.com/';
+          }
+          else if (bankName === '국민은행') {
+            window.location.href = 'https://obank.kbstar.com/';
+          }
+        });
+      });
+
+      // 👀 눈알 버튼
+      $(document).ready(function () {
+        const visionRangeX = 180;
+        const visionRangeY = 75;
+
+        $(".creepy-btn").on("mousemove touchmove", function (e) {
+          const event = e.originalEvent.touches ? e.originalEvent.touches[0] : e;
+
+          const $eyesContainer = $(this).find(".creepy-btn__eyes")[0];
+          const rect = $eyesContainer.getBoundingClientRect();
+
+          const eyesCenter = {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+          };
+
+          const cursor = {
+            x: event.clientX,
+            y: event.clientY
+          };
+
+          // 각도 계산
+          const dx = cursor.x - eyesCenter.x;
+          const dy = cursor.y - eyesCenter.y;
+          const angle = Math.atan2(-dy, dx) + Math.PI / 2;
+
+          // 거리 계산
+          const distance = Math.hypot(dx, dy);
+          const x = Math.sin(angle) * distance / visionRangeX;
+          const y = Math.cos(angle) * distance / visionRangeY;
+
+          // pupil 이동
+          const translateX = -50 + x * 50;
+          const translateY = -50 + y * 50;
+
+          $(this).find(".creepy-btn__pupil").css(
+            "transform",
+            `translate(${translateX}%, ${translateY}%)`
+          );
+        });
+
+      });
+    </script>
+</body>
+</html>
