@@ -66,6 +66,7 @@ header > div > a > img {
   border: 0;
   border-radius: 6px;
   cursor: pointer;
+  font-size: smaller !important;
   font-weight: 600;
 }
 .side-menu input#user-name {
@@ -252,6 +253,20 @@ body {
     margin-top: 5em;
 }
 
+.fc .fc-button {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.25em;
+    display: inline-block;
+    font-size: 0.5em;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 0.4em 0.65em;
+    text-align: center;
+    user-select: none;
+    vertical-align: middle;
+}
+
 .fc .fc-button-primary {
     background-color: #2d91f5;
     border-color: #c5e2ff;
@@ -264,9 +279,14 @@ body {
 }
 
 .fc .fc-toolbar-title {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin: 0px;
     color: #09459b;
+}
+
+.fc-h-event .fc-event-main-frame {
+    display: flex;
+    font-size: 13px;
 }
 
 .fc .fc-button-primary:disabled {
@@ -283,6 +303,7 @@ body {
 }
 
 .fc td, .fc th {
+    font-size: 15px;
     padding: 0px;
     vertical-align: top;
     color: #172447;
@@ -304,6 +325,29 @@ body {
 .fc-col-header-cell.fc-day-sat,
 .fc-day-sat .fc-daygrid-day-number {
   color: blue !important;
+}
+
+.fc-icon {
+    filter: invert(16%) sepia(100%) saturate(7500%) hue-rotate(-1deg) brightness(100%) contrast(100%);
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    height: 1em;
+    line-height: 1;
+    text-align: center;
+    text-transform: none;
+    user-select: none;
+    width: 1em;
+    font-family: fcicons !important;
+}
+
+.fc .fc-popover-title {
+    margin: 0px 2px;
+    color: #000000;
+    font-size: 15px;
 }
 
 .fc .fc-scrollgrid-section-sticky > * {
