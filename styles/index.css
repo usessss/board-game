@@ -12,7 +12,7 @@ header > div > a > img {
     height: auto;
 }
 
-/* ì‚¬ì´ë“œë©”ë‰´ ìŠ¤íƒ€ì¼ */
+/* ?‚¬?´?“œë©”ë‰´ ?Š¤????¼ */
 .menu-toggle {
   position: fixed;
   left: 5px;
@@ -85,7 +85,7 @@ header > div > a > img {
   cursor: pointer;
 }
 
-/* ì˜¤ë²„ë ˆì´ */
+/* ?˜¤ë²„ë ˆ?´ */
 .side-overlay {
   position: fixed;
   inset: 0;
@@ -109,7 +109,7 @@ body {
 .search-wrapper {
 	position: absolute;
 	top: 22%;
-	/* ë°•ìŠ¤ ìš”ì†Œ ê°€ë¡œ,ì„¸ë¡œ ì¤‘ì•™ ì •ë ¬ */
+	/* ë°•ìŠ¤ ?š”?†Œ ê°?ë¡?,?„¸ë¡? ì¤‘ì•™ ? •? ¬ */
 	/* -webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%); */
 }
@@ -123,7 +123,7 @@ body {
 	position: relative;
 	transition: all .3s ease-in-out;
 }
-/* search ë²„íŠ¼ í™œì„±í™”ì‹œ */
+/* search ë²„íŠ¼ ?™œ?„±?™”?‹œ */
 .search-wrapper.active .input-holder {
 	width: 290px;
 	border-radius: 50px;
@@ -215,7 +215,7 @@ body {
 	top: 24px;
 	right: 20px;
 	cursor: pointer;
-	/* ì‹œê³„ ë°˜ëŒ€ë°©í–¥ìœ¼ë¡œ ëŒë ¤ë†“ê³  active ê°€ ë  ë•Œ ì‹œê³„ë°©í–¥ìœ¼ë¡œ íšŒì „ì‹œí‚´*/
+	/* ?‹œê³? ë°˜ë??ë°©í–¥?œ¼ë¡? ?Œ? ¤?†“ê³? active ê°? ?  ?•Œ ?‹œê³„ë°©?–¥?œ¼ë¡? ?šŒ? „?‹œ?‚´*/
 	transform: rotate(-180deg);
 	transition: all .3s cubic-bezier(0.285, -0.450, 0.935, 0.110);
 	transition-delay: 0.2s;
@@ -233,7 +233,7 @@ body {
 	background: #FE5F55;
 	border-radius: 2px;
 }
-/* ë‹«ê¸° X ë²„íŠ¼ ì‹­ìê°€ë¡œ ë§Œë“ ë¡œ rotate ì‹œí‚´ */
+/* ?‹«ê¸? X ë²„íŠ¼ ?‹­?ê°?ë¡? ë§Œë“ ë¡? rotate ?‹œ?‚´ */
 .search-wrapper .close::before {
 	width: 5px;
 	height: 25px;
@@ -247,7 +247,7 @@ body {
 	top: 10px;
 }
 
-/* ìº˜ë¦°ë” */
+/* ìº˜ë¦°?” */
 .fc .fc-toolbar.fc-header-toolbar {
     margin-bottom: 1.5em;
     margin-top: 5em;
@@ -315,13 +315,13 @@ body {
     height: 606px;
 }
 
-/* ì¼ìš”ì¼ ë¹¨ê°„ìƒ‰ */
+/* ?¼?š”?¼ ë¹¨ê°„?ƒ‰ */
 .fc-col-header-cell.fc-day-sun,
 .fc-day-sun .fc-daygrid-day-number {
   color: red !important;
 }
 
-/* í† ìš”ì¼ íŒŒë€ìƒ‰ */
+/* ?† ?š”?¼ ?ŒŒ????ƒ‰ */
 .fc-col-header-cell.fc-day-sat,
 .fc-day-sat .fc-daygrid-day-number {
   color: blue !important;
@@ -363,7 +363,7 @@ body {
     font-weight: 900;
 }
 
-/* + ë”ë³´ê¸° í´ë¦­ ì‹œ ëœ¨ëŠ” ëª¨ë‹¬ ì•ˆì—(ë‚ ì§œ 'ì¼' ëœ¨ëŠ” ê±° ì•ˆ ë³´ì´ê²Œ) */
+/* + ?”ë³´ê¸° ?´ë¦? ?‹œ ?œ¨?Š” ëª¨ë‹¬ ?•ˆ?—(?‚ ì§? '?¼' ?œ¨?Š” ê±? ?•ˆ ë³´ì´ê²?) */
 .fc-more-popover-misc span {
   display: none;
 }
@@ -403,6 +403,7 @@ body {
 section.pay-section .account-box {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 section.pay-section .account-box div > img.kakao-logo {
@@ -417,16 +418,23 @@ section.pay-section .account-box div > span#account-number {
     -1px -1px 0 #333,
      1px -1px 0 #333,
     -1px  1px 0 #333,
-     1px  1px 0 #333; /* ëŒ€ì²´ ê·¸ë¦¼ì í…Œë‘ë¦¬ */
+     1px  1px 0 #333; /* ???ì²? ê·¸ë¦¼? ?…Œ?‘ë¦? */
 }
 
 section.pay-section h3 {
   margin: 50px 0 25px 0;
+  text-align: center;
 }
 
 section.pay-section p.pay-desc {
   margin: 30px 0 30px 0;
   font-size: small; color: seashell;
+  text-align: center;
+}
+
+section.pay-section div.eyebtn {
+  display: flex; 
+  justify-content: center;
 }
 
 .bank-icons {
@@ -447,7 +455,7 @@ section.pay-section p.pay-desc {
 }
 
 
-/* íŒŒë‘ ëˆˆì•Œ ë²„íŠ¼ */
+/* ?ŒŒ?‘ ?ˆˆ?•Œ ë²„íŠ¼ */
 :root {
   --hue: 223deg;
   --gray1: hsl(var(--hue) 10% 95%);
