@@ -21,7 +21,8 @@
     <!-- 헤더 -->
     <header>
       <div>
-        <a href="./index.html">
+        <!-- <a href="/board-game/index.html"> -->
+          <a href="./index.html">
           <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
         </a>
       </div>
@@ -38,8 +39,18 @@
       
       <div class="side-menu__body">
         <ul>
-          <li><a href="#">👀 월별로 출석체크 한눈에 보기</a></li>
-          <li><a href="#">💸 일참비/월정액 입금하기</a></li>
+          <li>
+            <!-- <a href="/board-game/place.html"> -->
+              <a href="./place.html">
+              👀 월별로 출석체크 한눈에 보기
+            </a>
+          </li>
+          <li>
+            <!-- <a href="/board-game/money.html"> -->
+              <a href="./money.html">
+              💸 일참비/월정액 입금하기
+            </a>
+          </li>
           <li><a href="#">🎯 봉우리 아지트 위치보기</a></li>
           <li><a href="#">🚘 주차 가능한 곳 보기</a></li>
         </ul>
@@ -60,11 +71,8 @@
       <span class="close search-toggle"></span>
     </div>
 
-    <div class="month-selector btn-group" style="margin: 94px 0 10px 20px;">
-      <button 
-        type="button" class="month-btn btn btn-secondary dropdown-toggle" 
-        data-bs-toggle="dropdown" aria-expanded="false"
-      >
+    <div class="month-selector btn-group" style="margin: 110px 0 10px 20px;">
+      <button type="button" class="month-btn btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         출석 체크 확인 월 선택
       </button>
       <ul class="dropdown-menu month-list" style="padding: 10px;">
