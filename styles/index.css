@@ -169,10 +169,10 @@ body {
     transition: all .3s ease-in-out;
 }
 .search-wrapper.active .input-holder .search-icon {
-	width: 60px;
-	height: 36px;
-	margin: 10px;
-	border-radius: 30px;
+	  width: 37px;
+    height: 37px;
+    margin: 10px;
+    border-radius: 50%;
 }
 .search-wrapper .input-holder .search-icon span {
 	width: 22px;
@@ -192,33 +192,41 @@ body {
 	content:'';
 }
 .search-wrapper .input-holder .search-icon span::before {
-	width: 4px;
-	height: 11px;
-	left: 9px;
-	top: 14px;
-	border-radius: 2px;
-	background: #FE5F55;
+	  width: 4px;
+    height: 13px;
+    left: 9px;
+    top: 10px;
+    border-radius: 2px;
+    background: #FE5F55;
 }
 .search-wrapper .input-holder .search-icon span::after {
-	  width: 20px;
+    width: 20px;
     height: 20px;
     left: 0px;
-    top: -4px;
+    top: -6px;
     border-radius: 16px;
     border: 4px solid #FE5F55;
 }
+.search-wrapper.active .close {
+    top: 15px;
+    right: -50px;
+    transform: rotate(45deg);
+    transition: all .6s 
+    cubic-bezier(0.000, 0.105, 0.035, 1.570);
+        transition-delay: 0.5s;
+}
 .search-wrapper .close {
 	position: absolute;
-	z-index: 1;
-	width: 25px;
-	height: 25px;
-	top: 24px;
-	right: 20px;
-	cursor: pointer;
-	/* ?ãúÍ≥? Î∞òÎ??Î∞©Ìñ•?úºÎ°? ?èå?†§?ÜìÍ≥? active Í∞? ?ê† ?ïå ?ãúÍ≥ÑÎ∞©?ñ•?úºÎ°? ?öå?†Ñ?ãú?Ç¥*/
-	transform: rotate(-180deg);
-	transition: all .3s cubic-bezier(0.285, -0.450, 0.935, 0.110);
-	transition-delay: 0.2s;
+    z-index: 1;
+    width: 25px;
+    height: 25px;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    transform: rotate(-180deg);
+    transition: all .3s 
+    cubic-bezier(0.285, -0.450, 0.935, 0.110);
+      transition-delay: 0.2s;
 }
 .search-wrapper.active .close {
 	right: -50px;
@@ -247,7 +255,11 @@ body {
 	top: 10px;
 }
 
-
+.btn-group-vertical>.btn, .btn-group>.btn {
+    /* position: relative;
+    flex: 1 1 auto; */
+    font-size: small !important;
+}
 
 /* Ï∫òÎ¶∞?çî */
 .fc .fc-toolbar.fc-header-toolbar {
