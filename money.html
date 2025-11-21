@@ -44,8 +44,8 @@
             </a>
           </li>
           <li>
-            <a href="/board-game/money.html">
-              <!-- <a href="./money.html"> -->
+            <!-- <a href="/board-game/money.html"> -->
+              <a href="./money.html">
               💸 일참비/월정액 입금하기
             </a>
           </li>
@@ -174,19 +174,33 @@
       // 은행 이동 기능
       document.querySelectorAll('.bank-icon-flex').forEach(function (item) {
         item.addEventListener('click', function () {
-          const bankName = this.querySelector('span').textContent.trim();
+          const bank = this.querySelector('.bank-title').textContent.trim();
 
-          if (bankName === '토스') {
-            window.location.href = 'https://toss.im/transfer';
+          if (bank === "토스") {
+            openApp("toss://send", "https://toss.me");
           }
-          else if (bankName === '카카오뱅크') {
-            window.location.href = 'https://www.kakaobank.com/';
+
+          if (bank === "카카오뱅크") {
+            openApp("kakaobank://", "https://www.kakaobank.com");
           }
-          else if (bankName === '국민은행') {
-            window.location.href = 'https://obank.kbstar.com/';
+
+          if (bank === "국민은행") {
+            openApp("kb-bank://", "https://obank.kbstar.com");
           }
         });
       });
+
+      function openApp(appUrl, webUrl) {
+        const start = Date.now();
+        window.location.href = appUrl;  // 앱 실행
+
+        setTimeout(() => {
+          const end = Date.now();
+          if (end - start < 1200) {
+            window.location.href = webUrl;  // 앱 없으면 웹으로 이동
+          }
+        }, 1000);
+      }
 
       // 👀 눈알 버튼
       $(document).ready(function () {

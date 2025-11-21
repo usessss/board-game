@@ -233,11 +233,22 @@ body {
       transition-delay: 0.2s;
 }
 .search-wrapper.active .close {
-	right: -50px;
-	transform: rotate(45deg);
-	transition: all .6s cubic-bezier(0.000, 0.105, 0.035, 1.570);
-	transition-delay: 0.5s;
+	  position: fixed;
+    top: 170px;
+    right: -50px;
+    transform: rotate(45deg);
+    transition: all .6s 
+    cubic-bezier(0.000, 0.105, 0.035, 1.570);
+    transition-delay: 0.5s;
 }
+@media (max-width: 480px) {
+  .search-wrapper.active .close {
+    right: 0; /* 모바일에서는 화면 안에 고정 */
+    top: 27%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+}
+
 .search-wrapper .close::before,
 .search-wrapper .close::after {
 	position: absolute;
