@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>월별 출첵 한눈에 보기(검색 기능)</title>
+  <title>봉우리 출첵</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="icon" type="image/png" href="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png">
 
   <link rel="stylesheet" href="./styles/index.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,18 +40,23 @@
       <div class="side-menu__body">
         <ul>
           <li>
-            <a href="/board-game/place.html">
-              <!-- <a href="./place.html"> -->
+            <!-- <a href="/board-game/see.html"> -->
+              <a href="./see.html">
               👀 월별로 출석체크 한눈에 보기
             </a>
           </li>
           <li>
-            <a href="/board-game/money.html">
-              <!-- <a href="./money.html"> -->
+            <!-- <a href="/board-game/money.html"> -->
+              <a href="./money.html">
               💸 일참비/월정액 입금하기
             </a>
           </li>
-          <li><a href="#">🎯 봉우리 아지트 위치보기</a></li>
+          <li>
+            <!-- <a href="/board-game/place.html"> -->
+            <a href="./place.html">
+              🎯 봉우리 아지트 위치보기
+            </a>
+          </li>
           <li><a href="#">🚘 주차 가능한 곳 보기</a></li>
         </ul>
 
@@ -62,37 +67,18 @@
     </nav>
     <div class="side-overlay" tabindex="-1"></div>
 
-    <!-- 검색 -->
-    <div class="search-wrapper">
-      <div class="input-holder">
-        <input type="text" class="search-input" placeholder="찾으실 이름을 입력하세요" />
-        <button class="search-icon search-toggle"><span></span></button>
+    <section class="map-section">
+      <h4>📍 봉우리 아지트 위치</h4>
+
+      <div id="map"></div>
+
+      <div class="address-box">
+        <span id="address-text">
+          경기도 화성시 봉담읍 동화리 600-1 스타타워1 302호
+        </span>
+        <button id="copy-address-btn">주소 복사</button>
       </div>
-      <span class="close search-toggle"></span>
-    </div>
-
-    <div class="month-selector btn-group" style="margin: 110px 0 10px 20px;">
-      <button type="button" class="month-btn btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        출석 체크 확인 월 선택
-      </button>
-      <ul class="dropdown-menu month-list">
-        <li><a class="dropdown-item" href="#">1월</a></li>
-        <li><a class="dropdown-item" href="#">2월</a></li>
-        <li><a class="dropdown-item" href="#">3월</a></li>
-        <li><a class="dropdown-item" href="#">4월</a></li>
-        <li><a class="dropdown-item" href="#">5월</a></li>
-        <li><a class="dropdown-item" href="#">6월</a></li>
-        <li><a class="dropdown-item" href="#">7월</a></li>
-        <li><a class="dropdown-item" href="#">8월</a></li>
-        <li><a class="dropdown-item" href="#">9월</a></li>
-        <li><a class="dropdown-item" href="#">10월</a></li>
-        <li><a class="dropdown-item" href="#">11월</a></li>
-        <li><a class="dropdown-item" href="#">12월</a></li>
-      </ul>
-    </div>
-
-    <!-- 검색 결과 출력 영역 -->
-    <div id="search-result" style="padding:20px; font-size:18px;"></div>
+    </section>
 
     <script>
       // 사이드메뉴 토글
@@ -114,143 +100,51 @@
         $('.side-menu__close, .side-overlay').on('click', closeMenu);
       })();
 
-      // 검색창
-      var $searchToggle = $('.search-toggle');
+      
+      // 2. 지도 그리는 함수 (initMap)
+      function initMap() {
+          // alert('지도 함수 실행 성공!'); // 테스트용 (성공하면 주석 처리)
+          
+          var mapContainer = document.getElementById('map'); 
+          var mapOption = { 
+              center: new kakao.maps.LatLng(37.221427, 126.952870), 
+              level: 3 
+          };
 
-      $searchToggle.on('click', function (e) {
-        var $target = $(this);
-        var $container = $target.closest('.search-wrapper');
-        
-        if (!$container.hasClass('active')) {
-          $container.addClass('active');
-          e.preventDefault();
-        } else if ($container.hasClass('active') && $target.closest('.input-holder').length == 0) {
-          $container.removeClass('active');
-          $container.find('.search-input').val('');
-        }
-      });
+          var map = new kakao.maps.Map(mapContainer, mapOption); 
 
-      // 월 선택 드롭다운
-      const monthBtn = document.querySelector('.month-btn');
-      const monthItems = document.querySelectorAll('.month-list a');
-
-      monthItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-          e.preventDefault(); // a 태그 기본 동작 막기
-          monthBtn.textContent = item.textContent; // 버튼에 선택한 월 반영
-        });
-      });
-
-      // ======================
-      // 🔍 출석 검색 기능
-      // ======================
-      function getKoreanWeekday(dateStr) {
-        const day = new Date(dateStr).getDay();
-        return ["일", "월", "화", "수", "목", "금", "토"][day];
+          var marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(37.221427, 126.952870)
+          });
+          marker.setMap(map);
       }
 
-      // 요일별 가격
-      function getPrice(weekday) {
-        return weekday === "토" || weekday === "일" ? 8000 : 5000;
+      // 3. 스크립트 강제 로드 함수 (가장 중요한 부분!)
+      function loadKakaoScript() {
+          var script = document.createElement('script');
+          // appkey 뒷부분에 &autoload=false 필수
+          script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=23dbc639690beb853105f72b98c93a4a&autoload=false";
+          
+          // 스크립트 파일이 다 다운로드 되면 실행될 기능
+          script.onload = function() {
+              kakao.maps.load(initMap); // 다운 완료 후 initMap 실행
+          };
+
+          // 스크립트 로드 실패 시 (옵션)
+          // script.onerror = function() {
+          //     alert("카카오 지도 스크립트를 불러오는데 실패했습니다. 인터넷 연결이나 차단 설정을 확인하세요.");
+          // };
+
+          document.head.appendChild(script);
       }
 
-      // 검색 실행
-      function searchAttendance() {
-        const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
-
-        const searchName = $(".search-input").val().trim();
-        const selectedMonthText = $(".month-btn").text(); // "11월"
-        if (!searchName) return alert("검색할 이름을 입력해주세요!");
-        if (selectedMonthText.includes("선택")) return alert("월을 선택해주세요!");
-
-        const selectedMonth = parseInt(selectedMonthText.replace("월", ""));
-
-        let results = []; // {date, weekday, price}
-
-        // 날짜 순회
-        Object.keys(saved).forEach(dateStr => {
-          const date = new Date(dateStr);
-          const month = date.getMonth() + 1;
-
-          if (month === selectedMonth) {
-            const names = saved[dateStr] || [];
-            names.forEach(name => {
-              if (name.includes(searchName)) {
-                const weekday = getKoreanWeekday(dateStr);
-                results.push({
-                  date: dateStr,
-                  weekday,
-                  price: getPrice(weekday)
-                });
-              }
-            });
-          }
-        });
-
-        const resultDiv = $("#search-result");
-        resultDiv.empty();
-
-        if (results.length === 0) {
-          resultDiv.html("<p>검색 결과가 없습니다.</p>");
-          return;
-        }
-
-        // 표 생성
-        let tableHTML = `
-          <table border="1" cellpadding="10" style="border-collapse:collapse; width:300px;">
-            <thead>
-              <tr style="background:#f3f3f3;">
-                <th>날짜</th>
-                <th>요일</th>
-                <th>금액</th>
-              </tr>
-            </thead>
-            <tbody>
-
-            <a href="/board-game/money.html" style="text-decoration: none; color: #2B6CB0;">일참비/월정액 입금하러 가기</a>
-        `;
-
-        let total = 0;
-
-        results.forEach(item => {
-          tableHTML += `
-            <tr>
-              <td>${item.date}</td>
-              <td>${item.weekday}요일</td>
-              <td>${item.price.toLocaleString()}원</td>
-            </tr>
-          `;
-          total += item.price;
-        });
-
-        tableHTML += `
-            </tbody>
-          </table>
-          <div style="margin-top:15px; font-weight:bold; font-size:20px;">
-            총 <span style="color:#d9534f">${results.length}</span>번 출석<br>
-            합계: <span style="color:#0275d8">${total.toLocaleString()}원</span>
-          </div>
-        `;
-
-        resultDiv.html(tableHTML);
-      }
-
-      // ======================
-      // 🔍 검색 버튼 클릭 감지
-      // ======================
-
-      $(".search-toggle").on("click", function(e) {
-        // 검색 input 열고 닫는 기능 유지하면서…
-        
-        const container = $(this).closest('.search-wrapper');
-
-        // 닫히는 순간 검색 실행
-        if (container.hasClass('active')) {
-          searchAttendance();
-        }
-      });
+      // 4. 로드 시작
+      loadKakaoScript();
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script 
+        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=23dbc639690beb853105f72b98c93a4a&autoload=false"
+        onload="kakao.maps.load(initMap)">
+    </script>
 </body>
 </html>

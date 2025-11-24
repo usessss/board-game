@@ -12,7 +12,7 @@ header > div > a > img {
     height: auto;
 }
 
-/* ?‚¬?´?“œë©”ë‰´ ?Š¤????¼ */
+/* ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ë©”ë‰´ ?ï¿½ï¿½????ï¿½ï¿½ */
 .menu-toggle {
   position: fixed;
   left: 5px;
@@ -85,7 +85,7 @@ header > div > a > img {
   cursor: pointer;
 }
 
-/* ?˜¤ë²„ë ˆ?´ */
+/* ?ï¿½ï¿½ë²„ë ˆ?ï¿½ï¿½ */
 .side-overlay {
   position: fixed;
   inset: 0;
@@ -109,7 +109,7 @@ body {
 .search-wrapper {
 	position: absolute;
 	top: 22%;
-	/* ë°•ìŠ¤ ?š”?†Œ ê°?ë¡?,?„¸ë¡? ì¤‘ì•™ ? •? ¬ */
+	/* ë°•ìŠ¤ ?ï¿½ï¿½?ï¿½ï¿½ ï¿½?ï¿½?,?ï¿½ï¿½ï¿½? ì¤‘ì•™ ?ï¿½ï¿½?ï¿½ï¿½ */
 	/* -webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%); */
 }
@@ -123,7 +123,7 @@ body {
 	position: relative;
 	transition: all .3s ease-in-out;
 }
-/* search ë²„íŠ¼ ?™œ?„±?™”?‹œ */
+/* search ë²„íŠ¼ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ */
 .search-wrapper.active .input-holder {
 	  position: fixed;
     top: 154px;
@@ -243,7 +243,7 @@ body {
 }
 @media (max-width: 480px) {
   .search-wrapper.active .close {
-    right: 0; /* ¸ğ¹ÙÀÏ¿¡¼­´Â È­¸é ¾È¿¡ °íÁ¤ */
+    right: 0; /* ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ */
     top: 27%;
     transform: translateY(-50%) rotate(45deg);
   }
@@ -256,7 +256,7 @@ body {
 	background: #FE5F55;
 	border-radius: 2px;
 }
-/* ?‹«ê¸? X ë²„íŠ¼ ?‹­?ê°?ë¡? ë§Œë“ ë¡? rotate ?‹œ?‚´ */
+/* ?ï¿½ï¿½ï¿½? X ë²„íŠ¼ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ë§Œë“ ï¿½? rotate ?ï¿½ï¿½?ï¿½ï¿½ */
 .search-wrapper .close::before {
 	width: 5px;
 	height: 25px;
@@ -295,7 +295,7 @@ ul.dropdown-menu li a.dropdown-item {
     font-size: small !important;
 }
 
-/* ìº˜ë¦°?” */
+/* ìº˜ë¦°?ï¿½ï¿½ */
 .fc .fc-toolbar.fc-header-toolbar {
     margin-bottom: 1.5em;
     margin-top: 5em;
@@ -363,13 +363,13 @@ ul.dropdown-menu li a.dropdown-item {
     height: 606px;
 }
 
-/* ?¼?š”?¼ ë¹¨ê°„?ƒ‰ */
+/* ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ë¹¨ê°„?ï¿½ï¿½ */
 .fc-col-header-cell.fc-day-sun,
 .fc-day-sun .fc-daygrid-day-number {
   color: red !important;
 }
 
-/* ?† ?š”?¼ ?ŒŒ????ƒ‰ */
+/* ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½????ï¿½ï¿½ */
 .fc-col-header-cell.fc-day-sat,
 .fc-day-sat .fc-daygrid-day-number {
   color: blue !important;
@@ -411,7 +411,7 @@ ul.dropdown-menu li a.dropdown-item {
     font-weight: 900;
 }
 
-/* + ?”ë³´ê¸° ?´ë¦? ?‹œ ?œ¨?Š” ëª¨ë‹¬ ?•ˆ?—(?‚ ì§? '?¼' ?œ¨?Š” ê±? ?•ˆ ë³´ì´ê²?) */
+/* + ?ï¿½ï¿½ë³´ê¸° ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ëª¨ë‹¬ ?ï¿½ï¿½?ï¿½ï¿½(?ï¿½ï¿½ï¿½? '?ï¿½ï¿½' ?ï¿½ï¿½?ï¿½ï¿½ ï¿½? ?ï¿½ï¿½ ë³´ì´ï¿½?) */
 .fc-more-popover-misc span {
   display: none;
 }
@@ -466,7 +466,7 @@ section.pay-section .account-box div > span#account-number {
     -1px -1px 0 #333,
      1px -1px 0 #333,
     -1px  1px 0 #333,
-     1px  1px 0 #333; /* ???ì²? ê·¸ë¦¼? ?…Œ?‘ë¦? */
+     1px  1px 0 #333; /* ???ï¿½? ê·¸ë¦¼?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½? */
 }
 
 section.pay-section h3 {
@@ -505,8 +505,33 @@ section.pay-section div.eyebtn {
   border-radius: 50%;
 }
 
+/* place.html */
+section.map-section div#map {
+  width: 100%;
+  height: 380px;
+  border-radius: 20px;
+}
 
-/* ?ŒŒ?‘ ?ˆˆ?•Œ ë²„íŠ¼ */
+section.map-section div.address-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f3f3f3;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+section.map-section div.address-box button#copy-address-btn {
+  background: #2b65ff;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+/* ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ë²„íŠ¼ */
 :root {
   --hue: 223deg;
   --gray1: hsl(var(--hue) 10% 95%);
