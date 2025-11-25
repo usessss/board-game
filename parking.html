@@ -72,22 +72,97 @@
     </nav>
     <div class="side-overlay" tabindex="-1"></div>
 
+    <!-- 지도 -->
     <section class="map-section">
-      <h5>📍 봉우리 아지트 위치</h5>
-
+      <h5 style="color: rgb(250, 114, 35);">
+        🚘 주차 가능한 곳 한눈에 보기
+      </h5>
       <div id="map"></div>
 
-      <div class="address-box">
-        <span id="address-text">
-          경기도 화성시 봉담읍 동화리 600-1<br />
-          스타타워1 302호
-        </span>
-        <button id="copy-address-btn">주소 복사</button>
+      <!-- 주소 리스트 -->
+      <div class="address-list">
+        <div class="address-box background-color-1">
+          <div style="display: flex; flex-direction: column;">
+            <div>
+              <strong>봉담 스타타워1 상가주차장</strong>
+            </div>
+            <div>
+              <span class="address-text">경기 화성시 봉담읍 동화리 600-1</span>
+            </div>
+          </div>
+          
+          <button class="copy-btn">주소 복사</button>
+        </div>
+
+        <div class="address-box background-color-2">
+          <div style="display: flex; flex-direction: column;">
+            <div>
+              <strong>스타타워2 상가주차장</strong>
+            </div>
+            <div>
+              <span class="address-text">경기 화성시 봉담읍 동화새터길 98</span>
+            </div>
+          </div>
+          
+          <button class="copy-btn">주소 복사</button>
+        </div>
+
+        <div class="address-box background-color-3">
+          <div style="display: flex; flex-direction: column;">
+            <div>
+              <strong>스타타워3 상가주차장</strong>
+            </div>
+            <div>
+              <span class="address-text">경기 화성시 봉담읍 동화새터길 96</span>
+            </div>
+          </div>
+          
+          <button class="copy-btn">주소 복사</button>
+        </div>
+
+        <div class="address-box background-color-4">
+          <div style="display: flex; flex-direction: column;">
+            <div>
+              <strong>동화 마을 휴먼시아 2단지</strong>
+            </div>
+            <div>
+              <span class="address-text">경기 화성시 봉담읍 동화새터길 89</span>
+            </div>
+          </div>
+
+          <button class="copy-btn">주소 복사</button>
+        </div>
+
+        <div class="address-box background-color-5">
+          <div style="display: flex; flex-direction: column;">
+            <div>
+              <strong>홍익돈까스 뒷편</strong>
+            </div>
+            <div>
+              <span class="address-text">경기 화성시 봉담읍 새말길 1 1층</span>
+            </div>
+          </div>
+          
+          <button class="copy-btn">주소 복사</button>
+        </div>
+
+        <div class="address-box background-color-6">
+          <div style="display: flex; flex-direction: column;">
+            <div>
+              <strong>동화 마을 휴먼시아 4단지</strong>
+            </div>
+            <div>
+              <span class="address-text">경기 화성시 봉담읍 동화새터길 118</span>
+            </div>
+          </div>
+          
+          <button class="copy-btn">주소 복사</button>
+        </div>
       </div>
     </section>
 
     <script>
-      // 사이드메뉴 토글 
+      /* 사이드메뉴 토글 */
       (function(){
         var $menuToggle = $('.menu-toggle');
         var $side = $('.side-menu');
@@ -106,56 +181,73 @@
         $('.side-menu__close, .side-overlay').on('click', closeMenu);
       })();
 
-      
       /* ---------------------------
           1. 카카오맵 스크립트 로드
       ---------------------------- */
       function loadKakaoScript() {
-          var script = document.createElement('script');
+          const script = document.createElement('script');
           script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=23dbc639690beb853105f72b98c93a4a&autoload=false";
-          script.onload = function() {
-              kakao.maps.load(initMap);
-          };
+          script.onload = () => kakao.maps.load(initMap);
           document.head.appendChild(script);
       }
 
       /* ---------------------------
-          2. 정확한 지도 그리기
+          2. 지도 + 마커 5개 표시
       ---------------------------- */
       function initMap() {
-          var mapContainer = document.getElementById('map');
+          const positions = [
+              { title: "봉담 스타타워1", lat: 37.21710, lng: 126.96008, color: "#ff4d4d" },
+              { title: "봉담 스타타워2", lat: 37.2173326148628, lng: 126.959717858271, color: "#ff8c2f" },
+              { title: "봉담 스타타워3", lat: 37.2175053607659, lng: 126.959496939999, color: "#ffd93b" },
+              { title: "동화아파트 2단지", lat: 37.2184849508447, lng: 126.959407746553, color: "#45d66b" },
+              { title: "홍익돈까스 뒷편", lat: 37.219262824765, lng: 126.958364576713, color: "#4da3ff" },
+              { title: "동화아파트 4단지", lat: 37.2163259156565, lng: 126.960922667443, color: "#b26bff" }
+          ];
 
-          // ⭐ 여기에 정확 좌표 넣음
-          var position = new kakao.maps.LatLng(37.2171063939256, 126.960080086911);
+          const center = new kakao.maps.LatLng(37.21740, 126.96030); // 중심 위치
 
-          var mapOption = {
-              center: position,
-              level: 3
-          };
-
-          var map = new kakao.maps.Map(mapContainer, mapOption);
-
-          var marker = new kakao.maps.Marker({
-              position: position
+          const map = new kakao.maps.Map(document.getElementById('map'), {
+              center,
+              level: 4
           });
 
-          marker.setMap(map);
+          /* 🔵 커스텀 동그라미 마커 생성 */
+          positions.forEach(pos => {
+              const content = `
+                <div style="
+                    width:18px;
+                    height:18px;
+                    background:${pos.color};
+                    border-radius:50%;
+                    border:3px solid black;
+                    box-shadow:0 0 4px rgba(0,0,0,0.3);
+                "></div>
+            `;
+
+            new kakao.maps.CustomOverlay({
+                map,
+                position: new kakao.maps.LatLng(pos.lat, pos.lng),
+                content: content,
+                yAnchor: 0.5
+            });
+        });
       }
 
       /* ---------------------------
-          3. 주소 복사 기능 
+          3. 주소 복사 기능
       ---------------------------- */
-      document.addEventListener("DOMContentLoaded", function () {
-          document.getElementById("copy-address-btn").addEventListener("click", function () {
-              const text = document.getElementById("address-text").textContent;
+      document.addEventListener("DOMContentLoaded", () => {
+          document.querySelectorAll(".copy-btn").forEach((btn) => {
+              btn.addEventListener("click", () => {
+                  const text = btn.parentElement.querySelector(".address-text").textContent;
 
-              navigator.clipboard.writeText(text)
-                  .then(() => alert("📌 주소가 복사되었습니다!"))
-                  .catch(() => alert("❌ 복사가 지원되지 않는 환경입니다.\nHTTPS 환경에서 실행해주세요."));
+                  navigator.clipboard.writeText(text)
+                      .then(() => alert("📌 주소가 복사되었습니다!"))
+                      .catch(() => alert("❌ 이번 브라우저에서 복사가 안 돼요."));
+              });
           });
       });
 
-      // ⭐ 실행
       loadKakaoScript();
     </script>
 
