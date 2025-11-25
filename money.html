@@ -21,8 +21,8 @@
     <!-- 헤더 -->
     <header>
       <div>
-        <a href="/board-game/index.html">
-          <!-- <a href="./index.html"> -->
+        <!-- <a href="/board-game/index.html"> -->
+          <a href="./index.html">
           <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
         </a>
       </div>
@@ -191,6 +191,27 @@
         });
       });
 
+      function openKbBank() {
+        // 모바일 기기 판별
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        if (isAndroid) {
+          // Android의 intent URI 방식
+          window.location.href = "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end";
+        } else if (isIOS) {
+          // iOS 앱 URL 스킴 → 타이머 fallback
+          window.location.href = "kb-bank://";
+          setTimeout(function () {
+            // 앱이 실행 안 된 경우 fallback
+            window.location.href = "https://obank.kbstar.com";
+          }, 1500);
+        } else {
+          // 데스크탑에서는 바로 웹 접속
+          window.location.href = "https://obank.kbstar.com";
+        }
+      }
+
       // 은행 이동 기능
       document.querySelectorAll('.bank-icon-flex').forEach(function (item) {
         item.addEventListener('click', function () {
@@ -209,8 +230,11 @@
             openApp("kakaobank://", "https://www.kakaobank.com");
           }
 
+          // if (bank === "국민은행") {
+          //   openApp("kb-bank://", "https://obank.kbstar.com");
+          // }
           if (bank === "국민은행") {
-            openApp("kb-bank://", "https://obank.kbstar.com");
+            openKbBank();
           }
         });
       });

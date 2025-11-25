@@ -21,8 +21,8 @@
     <!-- 헤더 -->
     <header>
       <div>
-        <a href="/board-game/index.html">
-          <!-- <a href="./index.html"> -->
+        <!-- <a href="/board-game/index.html"> -->
+          <a href="./index.html">
           <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
         </a>
       </div>
@@ -94,182 +94,121 @@
         $('.side-menu__close, .side-overlay').on('click', closeMenu);
       })();
 
-      // 검색창
-      var $searchToggle = $('.search-toggle');
-
-      $searchToggle.on('click', function (e) {
-        var $target = $(this);
-        var $container = $target.closest('.search-wrapper');
-        
-        if (!$container.hasClass('active')) {
-          $container.addClass('active');
-          e.preventDefault();
-        } else if ($container.hasClass('active') && $target.closest('.input-holder').length == 0) {
-          $container.removeClass('active');
-          $container.find('.search-input').val('');
-        }
-      });
-
       document.addEventListener("DOMContentLoaded", function () {
-        // ==========================
-        // 1. 저장된 출석 불러오기 함수
-        // ==========================
-        function loadSavedAttendance() {
-          const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
 
-          Object.keys(saved).forEach(date => {
-            let names = saved[date];
-            // 이전 버전 호환: 단일 문자열이면 배열로 변환
-            if (!Array.isArray(names)) names = names ? [names] : [];
-            names.forEach(name => {
-              calendar.addEvent({
-                title: name,
-                start: date,
-                allDay: true
-              });
-            });
-          });
-        }
+  let calendarEl = document.getElementById("calendar");
+  let calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: "dayGridMonth",
+    locale: "ko",
+    height: "auto",
+    dayHeaderFormat: { weekday: "short" },
+    dayCellContent(info) { return { html: `<span>${info.date.getDate()}</span>` }; },
+    headerToolbar: { left: "prev,next", center: "title", right: "" },
 
-        // ==========================
-        // 2. 출석 저장 함수
-        // ==========================
-        function saveAttendance(name, date) {
-          const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
-          saved[date] = saved[date] || [];
-          // 이전에 단일 문자열로 저장된 경우 처리
-          if (!Array.isArray(saved[date])) saved[date] = saved[date] ? [saved[date]] : [];
-          // 동명이인 허용: 중복 검사 없이 무조건 추가
-          saved[date].push(name);
-          localStorage.setItem("attendance", JSON.stringify(saved));
-        }
+    dateClick: function(info) {
+      const clickedDate = info.dateStr;
+      let name = prompt(clickedDate + " 출석 이름을 입력하세요.");
+      if (!name) return;
 
-        // 이름 수정
-        function updateAttendance(date, oldName, newName) {
-          const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
-          if (!saved[date]) return;
-
-          const idx = saved[date].indexOf(oldName);
-          if (idx !== -1) saved[date][idx] = newName;
-
-          localStorage.setItem("attendance", JSON.stringify(saved));
-        }
-
-        // 이름 삭제
-        function removeAttendance(date, name) {
-          const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
-          if (!saved[date]) return;
-
-          saved[date] = saved[date].filter(n => n !== name);
-
-          if (saved[date].length === 0) delete saved[date];
-
-          localStorage.setItem("attendance", JSON.stringify(saved));
-        }
-
-        // ==========================
-        // 3. FullCalendar 설정
-        // ==========================
-        let calendarEl = document.getElementById("calendar");
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: "dayGridMonth",
-          locale: "ko",          // 한국어
-          height: "auto",
-          dayHeaderFormat: { weekday: "short" },  // 요일: 월, 화, 수
-          dayCellContent(info) {
-            return { html: `<span>${info.date.getDate()}</span>` };
-          },
-          headerToolbar: {
-            left: "prev,next",
-            center: "title",
-            right: ""            // today 버튼 제거
-          },
-
-          dateClick: function(info) {
-            const clickedDate = info.dateStr;   // yyyy-mm-dd
-
-            let name = prompt(clickedDate + " 출석 이름을 입력하세요.");
-
-            if (!name) return;
-
-            // 1) 캘린더에 표시
-            calendar.addEvent({
-              title: name,
-              start: clickedDate,
-              allDay: true
-            });
-
-            // 2) 로컬스토리지 저장
-            saveAttendance(name, clickedDate);
-
-            alert("등록 완료!");
-          },
-
-          dayMaxEvents: 3,
-          moreLinkText: function(args) {
-            return "➕ 더보기";   // 숫자 제거하고 텍스트만 출력
-          },
-          moreLinkClick: "popover",
-
-          // 이벤트 클릭해서 수정/삭제 기능
-          eventClick: function(info) {
-            const oldName = info.event.title;
-            const date = info.event.startStr;
-
-            const newName = prompt(
-              "이름 수정 또는 삭제가 가능합니다.\n수정하려면 새 이름 입력\n삭제하려면 빈칸 or 취소",
-              oldName
-            );
-
-            // 삭제
-            if (newName === null || newName.trim() === "") {
-              info.event.remove();
-              removeAttendance(date, oldName);
-              return;
-            }
-
-            // 수정
-            info.event.setProp("title", newName);
-            updateAttendance(date, oldName, newName);
-          }
+      // ========================
+      // 1) 서버 POST 요청
+      // ========================
+      fetch("http://localhost:3000/attendance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date: clickedDate, name })
+      })
+      .then(res => res.json())
+      .then(data => {
+        // 서버에서 받은 id를 이벤트 객체에 저장
+        calendar.addEvent({
+          title: data.name,
+          start: data.date,
+          allDay: true,
+          id: data.id
         });
+        alert("등록 완료!");
+      })
+      .catch(() => alert("서버 저장 실패"));
+    },
 
-        calendar.render();
+    dayMaxEvents: 3,
+    moreLinkText: () => "➕ 더보기",
+    moreLinkClick: "popover",
 
-        // 저장된 출석 로딩
-        loadSavedAttendance();
+    eventClick: function(info) {
+      const oldName = info.event.title;
+      const id = info.event.id;
 
-        // ==========================
-        // 4. 출석 버튼 이벤트
-        // ==========================
-        $("#attendance-btn").on("click", function (e) {
-          e.stopPropagation(); // 다른 클릭 이벤트 막기
+      const newName = prompt(
+        "이름 수정 또는 삭제가 가능합니다.\n수정하려면 새 이름 입력\n삭제하려면 빈칸 or 취소",
+        oldName
+      );
 
-          let name = prompt("출석체크할 이름을 입력해주세요.");
+      if (newName === null || newName.trim() === "") {
+        info.event.remove();
 
-          if (!name) return alert("이름을 입력해야 합니다!");
+        fetch(`http://localhost:3000/attendance/${id}`, { method: "DELETE" })
+          .catch(err => console.error("삭제 실패:", err));
+        return;
+      }
 
-          let today = new Date().toISOString().split("T")[0];
+      info.event.setProp("title", newName);
 
-          // 달력 표시
-          calendar.addEvent({
-            title: name,
-            start: today,
-            allDay: true,
-          });
+      fetch(`http://localhost:3000/attendance/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newName })
+      }).catch(err => console.error("수정 실패:", err));
+    }
+  });
 
-          // 로컬 저장
-          saveAttendance(name, today);
+  calendar.render();
 
-          // 서버 저장 (선택)
-          fetch("http://localhost:3000/attendance", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ date: today, name }),
-          });
-
-          alert("출석 완료!");
+  // ========================
+  // 서버에서 기존 출석 데이터 가져오기
+  // ========================
+  fetch("http://localhost:3000/attendance")
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(item => {
+        calendar.addEvent({
+          title: item.name,
+          start: item.date,
+          allDay: true,
+          id: item.id
         });
+      });
+    })
+    .catch(err => console.error("출석 데이터 로드 실패", err));
+
+  // ========================
+  // 출석 버튼 이벤트
+  // ========================
+  $("#attendance-btn").on("click", function () {
+    let name = prompt("출석체크할 이름을 입력해주세요.");
+    if (!name) return alert("이름을 입력해야 합니다!");
+
+    let today = new Date().toISOString().split("T")[0];
+
+    fetch("http://localhost:3000/attendance", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date: today, name })
+    })
+    .then(res => res.json())
+    .then(data => {
+      calendar.addEvent({
+        title: data.name,
+        start: data.date,
+        allDay: true,
+        id: data.id
+      });
+      alert("출석 완료!");
+    })
+    .catch(() => alert("서버 저장 실패"));
+  });
+
       });
     </script>
 </body>
