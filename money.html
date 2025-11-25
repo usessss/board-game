@@ -192,22 +192,22 @@
       });
 
       function openKbBank() {
-        const ua = navigator.userAgent;
-        const isAndroid = /Android/i.test(ua);
+        // 모바일 기기 판별
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
         if (isAndroid) {
-          // 1. 앱 스킴 먼저 시도
-          window.location.href = "kb-bank://";
-          // 2. 짧은 타이머 후 intent fallback
-          setTimeout(function () {
-            window.location.href = "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end";
-          }, 500);
-        } else if (/iPhone|iPad|iPod/i.test(ua)) {
+          // Android의 intent URI 방식
+          window.location.href = "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end";
+        } else if (isIOS) {
+          // iOS 앱 URL 스킴 → 타이머 fallback
           window.location.href = "kb-bank://";
           setTimeout(function () {
+            // 앱이 실행 안 된 경우 fallback
             window.location.href = "https://obank.kbstar.com";
           }, 1500);
         } else {
+          // 데스크탑에서는 바로 웹 접속
           window.location.href = "https://obank.kbstar.com";
         }
       }
@@ -230,11 +230,8 @@
             openApp("kakaobank://", "https://www.kakaobank.com");
           }
 
-          // if (bank === "국민은행") {
-          //   openApp("kb-bank://", "https://obank.kbstar.com");
-          // }
           if (bank === "국민은행") {
-            openKbBank();
+            openApp("kb-bank://", "https://obank.kbstar.com");
           }
         });
       });
