@@ -506,6 +506,10 @@ section.pay-section div.eyebtn {
 }
 
 /* place.html */
+section.map-section h5 {
+  margin: 20px 0 10px 10px;
+  color: #2b65ff;
+}
 section.map-section div#map {
   width: 100%;
   height: 380px;
@@ -516,9 +520,11 @@ section.map-section div.address-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f3f3f3;
+  background: #110f0f;
   padding: 10px 15px;
+  margin: 10px 0;
   border-radius: 8px;
+  font-size: small;
 }
 
 section.map-section div.address-box button#copy-address-btn {
