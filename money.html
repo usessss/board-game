@@ -23,7 +23,10 @@
       <div>
         <!-- <a href="/board-game/index.html"> -->
           <a href="./index.html">
-          <img src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" alt="봉우리 로고">
+          <img 
+            src="./images/Screenshot_20251118_085515_KakaoTalk-Photoroom.png" 
+            alt="봉우리 로고"
+          >
         </a>
       </div>
     </header>
@@ -79,7 +82,11 @@
       <!-- 계좌번호 표시 및 복사 버튼 -->
       <div class="account-box">
         <div>
-          <img src="./images/kakao.png" alt="카카오뱅크 로고" class="kakao-logo">
+          <img 
+             src="./images/kakao.png" 
+             alt="카카오뱅크 로고" 
+             class="kakao-logo"
+          >
         </div>
         <div>
           <span id="account-number">3333-19-7413668</span>
@@ -103,20 +110,12 @@
         </button>
       </div>
 
-      <p class="pay-desc">
-        👇 사용하시는 은행을 선택하시면 입금 화면으로 이동해요 ❕
-      </p>
+      <h4>
+        💛 입금하러 가기
+      </h4>
 
       <!-- 은행 아이콘 -->
       <div class="bank-icons">
-        <!-- <div class="bank-icon-flex">
-          <div>
-            <img src="./images/toss.jpg" alt="토스 로고">
-          </div>
-          <div>
-            <span class="bank-title">토스</span>
-          </div>
-        </div> -->
         <div class="bank-icon-flex">
           <div>
             <img src="./images/kakaoTalk.png" alt="카카오톡 로고">
@@ -144,6 +143,10 @@
           </div>
         </div>
       </div>
+      <p class="pay-desc">
+        👉 카카오톡 : 모임장 오픈프로필로 이동합니다❕<br />
+        👉 카카오뱅크 & 국민은행 : 앱이 깔려있다면 앱으로 이동합니다❕<br />
+      </p>
     </section>
 
     <script>
@@ -192,34 +195,30 @@
       });
 
       function openKbBank() {
-        // 모바일 기기 판별
-        const isAndroid = /Android/i.test(navigator.userAgent);
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        // 모바일 기기 판별
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-        if (isAndroid) {
-          // Android의 intent URI 방식
-          window.location.href = "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end";
-        } else if (isIOS) {
-          // iOS 앱 URL 스킴 → 타이머 fallback
-          window.location.href = "kb-bank://";
-          setTimeout(function () {
-            // 앱이 실행 안 된 경우 fallback
-            window.location.href = "https://obank.kbstar.com";
-          }, 1500);
-        } else {
-          // 데스크탑에서는 바로 웹 접속
-          window.location.href = "https://obank.kbstar.com";
-        }
+        if (isAndroid) {
+          // Android의 intent URI 방식
+          window.location.href = "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end";
+        } else if (isIOS) {
+          // iOS 앱 URL 스킴 → 타이머 fallback
+          window.location.href = "kb-bank://";
+          setTimeout(function () {
+            // 앱이 실행 안 된 경우 fallback
+            window.location.href = "https://obank.kbstar.com";
+          }, 1500);
+        } else {
+          // 데스크탑에서는 바로 웹 접속
+          window.location.href = "https://obank.kbstar.com";
+        }
       }
 
       // 은행 이동 기능
       document.querySelectorAll('.bank-icon-flex').forEach(function (item) {
         item.addEventListener('click', function () {
           const bank = this.querySelector('.bank-title').textContent.trim();
-
-          // if (bank === "토스") {
-          //   openApp("toss://send", "https://toss.me");
-          // }
           if (bank === "카카오톡") {
             // 오픈채팅 갠톡 프로필 링크로 이동
             window.location.href = "https://open.kakao.com/o/sz2TeIye";

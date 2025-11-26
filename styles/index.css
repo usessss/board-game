@@ -363,33 +363,21 @@ ul.dropdown-menu li a.dropdown-item {
     height: 606px;
 }
 
-/* ?��?��?�� 빨간?�� */
 .fc-col-header-cell.fc-day-sun,
 .fc-day-sun .fc-daygrid-day-number {
   color: red !important;
 }
 
-/* ?��?��?�� ?��????�� */
 .fc-col-header-cell.fc-day-sat,
 .fc-day-sat .fc-daygrid-day-number {
   color: blue !important;
 }
 
-.fc-icon {
-    filter: invert(16%) sepia(100%) saturate(7500%) hue-rotate(-1deg) brightness(100%) contrast(100%);
-    speak: none;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 400;
-    height: 1em;
-    line-height: 1;
-    text-align: center;
-    text-transform: none;
-    user-select: none;
-    width: 1em;
-    font-family: fcicons !important;
+.fc .fc-popover-close {
+    color: #ff0505;
+    cursor: pointer;
+    font-size: 1.1em;
+    opacity: 0.65;
 }
 
 .fc .fc-popover-title {
@@ -458,15 +446,41 @@ section.pay-section .account-box div > img.kakao-logo {
   width: 50px;
 }
 
-section.pay-section h3,
+section.pay-section h3 ,
+section.pay-section h4 ,
 section.pay-section .account-box div > span#account-number {
   font-size: 20px;
+  color: rgb(255, 255, 52) !important;
+  text-shadow:
+    -1px -1px 0 #333,
+     1px -1px 0 #333,
+    -1px  1px 0 #333,
+     1px  1px 0 #333;
+}
+
+section.pay-section p.pay-desc {
+  font-size: 0.6rem;
+  margin: 20px 0 20px 10px;
   color: rgb(255, 255, 52);
   text-shadow:
     -1px -1px 0 #333,
      1px -1px 0 #333,
     -1px  1px 0 #333,
-     1px  1px 0 #333; /* ???�? 그림?�� ?��?���? */
+     1px  1px 0 #333;
+}
+
+div.bank-icons .bank-icon-flex span.bank-title {
+  font-size: 0.8rem;
+  color: rgb(255, 255, 52);
+  text-shadow:
+    -1px -1px 0 #333,
+     1px -1px 0 #333,
+    -1px  1px 0 #333,
+     1px  1px 0 #333;
+}
+
+section.pay-section h4 {
+  margin-left: 10px;
 }
 
 section.pay-section h3 {
@@ -474,11 +488,11 @@ section.pay-section h3 {
   text-align: center;
 }
 
-section.pay-section p.pay-desc {
+/* section.pay-section p.pay-desc {
   margin: 30px 0 30px 0;
   font-size: small; color: seashell;
   text-align: center;
-}
+} */
 
 section.pay-section div.eyebtn {
   display: flex; 
@@ -576,7 +590,7 @@ section.map-section div.address-list div.address-box.background-color-6 {
 }
 
 
-/* ?��?�� ?��?�� 버튼 */
+/* eye 버튼 */
 :root {
   --hue: 223deg;
   --gray1: hsl(var(--hue) 10% 95%);
