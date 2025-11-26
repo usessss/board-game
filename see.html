@@ -191,37 +191,40 @@
       }
 
       // 검색 실행
-      function searchAttendance() {
-        const saved = JSON.parse(localStorage.getItem("attendance") || "{}");
+      // ======================
+      // 🔥 Firebase에서 출석 데이터 검색
+      // ======================
+      async function searchAttendance() {
+        const { db, ref, get } = window._fb;
 
         const searchName = $(".search-input").val().trim();
         const selectedMonthText = $(".month-btn").text(); // "11월"
+
         if (!searchName) return alert("검색할 이름을 입력해주세요!");
         if (selectedMonthText.includes("선택")) return alert("월을 선택해주세요!");
 
         const selectedMonth = parseInt(selectedMonthText.replace("월", ""));
 
+        // Firebase 전체 출석 데이터 가져오기
+        const snap = await get(ref(db, "attendance"));
+        const data = snap.val() || {};  // {id: {date, name}}
+
         let results = []; // {date, weekday, price}
 
-        // 날짜 순회
-        Object.keys(saved).forEach(dateStr => {
-          const date = new Date(dateStr);
-          const month = date.getMonth() + 1;
+        for (const key in data) {
+          const item = data[key];  // {date: "2025-11-26", name: "지민"}
 
-          if (month === selectedMonth) {
-            const names = saved[dateStr] || [];
-            names.forEach(name => {
-              if (name.includes(searchName)) {
-                const weekday = getKoreanWeekday(dateStr);
-                results.push({
-                  date: dateStr,
-                  weekday,
-                  price: getPrice(weekday)
-                });
-              }
-            });
-          }
-        });
+          const dateObj = new Date(item.date);
+          const month = dateObj.getMonth() + 1;
+
+          if (month !== selectedMonth) continue;
+          if (!item.name.includes(searchName)) continue;
+
+          const weekday = getKoreanWeekday(item.date);
+          const price = getPrice(weekday);
+
+          results.push({ date: item.date, weekday, price });
+        }
 
         const resultDiv = $("#search-result");
         resultDiv.empty();
@@ -242,8 +245,6 @@
               </tr>
             </thead>
             <tbody>
-
-            <a href="/board-game/money.html" style="text-decoration: none; color: #2B6CB0;">일참비/월정액 입금하러 가기</a>
         `;
 
         let total = 0;
@@ -266,11 +267,14 @@
             총 <span style="color:#d9534f">${results.length}</span>번 출석<br>
             합계: <span style="color:#0275d8">${total.toLocaleString()}원</span>
           </div>
+          <a href="./money.html" style="display:block;margin-top:15px;color:#2B6CB0;text-decoration:none;">
+            💸 일참비/월정액 입금하러 가기
+          </a>
         `;
 
         resultDiv.html(tableHTML);
       }
-
+       
       // ======================
       // 🔍 검색 버튼 클릭 감지
       // ======================
