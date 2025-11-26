@@ -236,91 +236,60 @@
         });
       });
 
-      function openKbBank() {
-        // 모바일 기기 판별
-        const isAndroid = /Android/i.test(navigator.userAgent);
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isAndroid) {
+          // 1. 앱 스킴 먼저 시도
+          window.location.href = "kb-bank://";
+          // 2. 짧은 타이머 후 intent fallback
+          setTimeout(function () {
+            window.location.href = "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end";
+          }, 500);
+        } else if (/iPhone|iPad|iPod/i.test(ua)) {
+          // Android의 intent URI 방식
+          window.location.href = "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end";
+        } else if (isIOS) {
+          // iOS 앱 URL 스킴 → 타이머 fallback
+          window.location.href = "kb-bank://";
+          setTimeout(function () {
+            // 앱이 실행 안 된 경우 fallback
+            window.location.href = "https://obank.kbstar.com";
+          }, 1500);
+        } else {
+          // 데스크탑에서는 바로 웹 접속
+          window.location.href = "https://obank.kbstar.com";
+        }
 
-        if (isAndroid) {
-          // Android의 intent URI 방식
-          window.location.href = "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end";
-        } else if (isIOS) {
-          // iOS 앱 URL 스킴 → 타이머 fallback
-          window.location.href = "kb-bank://";
-          setTimeout(function () {
-            // 앱이 실행 안 된 경우 fallback
-            window.location.href = "https://obank.kbstar.com";
-          }, 1500);
-        } else {
-          // 데스크탑에서는 바로 웹 접속
-          window.location.href = "https://obank.kbstar.com";
-        }
-      }
-
-      // 앱 오픈 유틸 — 플랫폼에 따라 안정적 분기
-    function openBankApp(options) {
-      // options: { androidIntent, iosScheme, webUrl }
-      const ua = navigator.userAgent || "";
-      const isAndroid = /Android/i.test(ua);
-      const isIOS = /iPhone|iPad|iPod/i.test(ua);
-
-      if (isAndroid && options.androidIntent) {
-        // Android에서는 intent:// 형식으로 시도 (패키지로 강제)
-        // 예: "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end"
-        window.location.href = options.androidIntent;
-        return;
-      }
-
-      if (isIOS && options.iosScheme) {
-        // iOS: 앱 스킴으로 시도한 뒤 1.2s 지나면 웹으로 fallback
-        const now = Date.now();
-        window.location.href = options.iosScheme;
-
-        setTimeout(function () {
-          // 앱 실행되면 페이지가 언로드되므로 이 코드는 실행 안 됨
-          if (Date.now() - now < 1500) {
-            window.location.href = options.webUrl;
+      // 은행 이동 기능
+      document.querySelectorAll('.bank-icon-flex').forEach(function (item) {
+        item.addEventListener('click', function () {
+          const bank = this.querySelector('.bank-title').textContent.trim();
+          if (bank === "카카오톡") {
+            // 오픈채팅 갠톡 프로필 링크로 이동
+            window.location.href = "https://open.kakao.com/o/sz2TeIye";
+            return;
           }
-        }, 1200);
-        return;
-      }
 
-      // 기본(데스크탑 또는 다른 경우) - 웹으로 이동
-      window.location.href = options.webUrl;
-    }
+          if (bank === "카카오뱅크") {
+            openApp("kakaobank://", "https://www.kakaobank.com");
+          }
 
-    // bank click 핸들러
-    document.querySelectorAll('.bank-icon-flex').forEach(function (item) {
-      item.addEventListener('click', function () {
-        const bankKey = item.getAttribute('data-bank');
-
-        if (bankKey === "kakaotalk") {
-          // 오픈프로필 (웹)
-          window.location.href = "https://open.kakao.com/o/sz2TeIye";
-          return;
-        }
-
-        if (bankKey === "kakaobank") {
-          // 카카오뱅크
-          openBankApp({
-            androidIntent: "intent://#Intent;scheme=kakaobank;package=com.kakaobank.channel.android;end",
-            iosScheme: "kakaobank://",
-            webUrl: "https://www.kakaobank.com"
-          });
-          return;
-        }
-
-        if (bankKey === "kb") {
-          // 국민은행 (KB)
-          openBankApp({
-            androidIntent: "intent://#Intent;scheme=kb-bank;package=com.kbstar.kbbank;end",
-            iosScheme: "kb-bank://",
-            webUrl: "https://obank.kbstar.com"
-          });
-          return;
-        }
+          if (bank === "국민은행") {
+            openKbBank();
+            openApp("kb-bank://", "https://obank.kbstar.com");
+          }
+        });
       });
-    });
+
+      function openApp(appUrl, webUrl) {
+        const start = Date.now();
+        window.location.href = appUrl;  // 앱 실행
+
+        setTimeout(() => {
+          const end = Date.now();
+          if (end - start < 1200) {
+            window.location.href = webUrl;  // 앱 없으면 웹으로 이동
+          }
+        }, 1000);
+      }
     </script>
 </body>
 </html>
