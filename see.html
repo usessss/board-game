@@ -17,6 +17,27 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales-all.global.min.js"></script>
+
+  <!-- Firebase (module) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1KyOhE1NlQtRIzSHIiab7KIKF2L-mc34",
+      authDomain: "board-game-72c4e.firebaseapp.com",
+      databaseURL: "https://board-game-72c4e-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "board-game-72c4e",
+      storageBucket: "board-game-72c4e.firebasestorage.app",
+      messagingSenderId: "761901243936",
+      appId: "1:761901243936:web:4875105f24a1b35e122645",
+      measurementId: "G-DG0J9K8VQV"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    window._fb = { db, ref, get }; // 전역으로 간단히 접근
+  </script>
 </head>
 
 <body>

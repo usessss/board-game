@@ -232,20 +232,10 @@ body {
     cubic-bezier(0.285, -0.450, 0.935, 0.110);
       transition-delay: 0.2s;
 }
-.search-wrapper.active .close {
-	  position: fixed;
-    top: 170px;
-    right: -50px;
-    transform: rotate(45deg);
-    transition: all .6s 
-    cubic-bezier(0.000, 0.105, 0.035, 1.570);
-    transition-delay: 0.5s;
-}
 @media (max-width: 480px) {
   .search-wrapper.active .close {
-    right: 0; /* ����Ͽ����� ȭ�� �ȿ� ���� */
-    top: 27%;
-    transform: translateY(-50%) rotate(45deg);
+    right: 0;
+    transform: translateY(20%) rotate(45deg);
   }
 }
 
