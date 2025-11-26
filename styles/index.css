@@ -106,137 +106,133 @@ body {
 ::selection {
 	background: #212129;
 }
+/* 검색창 위치/동작 안정화 */
 .search-wrapper {
-	position: absolute;
-	top: 22%;
-	/* 박스 ?��?�� �?�?,?���? 중앙 ?��?�� */
-	/* -webkit-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%); */
+  position: absolute;          /* 기존 중앙 정렬 유지 가능 */
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+  z-index: 1300;
+  width: min(640px, 90%);      /* 반응형 너비 제한 */
+  max-width: 720px;
+  height: 56px;                /* 고정 높이로 흔들림 방지 */
+  display: flex;
+  align-items: center;
 }
+
+/* 입력 컨테이너를 기준으로 내부 요소 절대 위치(안정화) */
 .search-wrapper .input-holder {
-  margin-left: 10px;
-	height: 55px;
-	width: 55px;
-	overflow: hidden;
-	background: rgba(255,255,255,0);
-	border-radius:6px;
-	position: relative;
-	transition: all .3s ease-in-out;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
-/* search 버튼 ?��?��?��?�� */
-.search-wrapper.active .input-holder {
-	  position: fixed;
-    top: 154px;
-    left: 10px;
-    width: 290px;
-    border-radius: 50px;
-    background: rgba(0, 0, 0, .5);
-    transition: all .5s 
-    cubic-bezier(0.0, 0.105, 0.035, 1.570);
-}
+
+/* 입력창은 가변 너비지만 높이는 고정 */
 .search-wrapper .input-holder .search-input {
-	width: 100%;
-	height: 34px;
-	padding: 0 70px 0 20px;
-	opacity: 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: transparent;
-	box-sizing: border-box;
-	border: 0;
-	outline: 0;
-	font-size: 16px;
-	font-weight: 400;
-	line-height: 20px;
-	color: #fff;
-	transform: translate(0, 60px);
-	transition: all .3s cubic-bezier(0.000, 0.105, 0.035, 1.570);
-	transition-delay: 0.3s;
+  width: 100%;
+  height: 40px;
+  padding: 8px 48px 8px 14px;  /* 오른쪽 여유: 아이콘/닫기 공간 확보 */
+  box-sizing: border-box;
+  border-radius: 8px;
 }
-.search-wrapper.active .input-holder .search-input {
-	opacity: 1;
-	transform: translate(0, 12px);
-}
+
+/* 돋보기 아이콘 버튼: 내부에 고정 크기 유지 */
 .search-wrapper .input-holder .search-icon {
-    width: 50px;
-    height: 50px;
-    border: 0;
-    outline: 0;
-    border-radius: 50%;
-    background: #fff;
-    cursor: pointer;
-    padding: 0;
-    position: relative;
-    z-index: 2;
-    float: right;
-    transition: all .3s ease-in-out;
+  position: absolute;
+  right: 8px;                  /* 입력창 안 우측에 고정 */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  z-index: 1310;
 }
-.search-wrapper.active .input-holder .search-icon {
-	  width: 37px;
-    height: 37px;
-    margin: 10px;
-    border-radius: 50%;
-}
+
+/* 돋보기 내부 span과 의사요소 고정 */
 .search-wrapper .input-holder .search-icon span {
-	width: 22px;
-	height: 22px;
-	display: inline-block;
-	vertical-align: middle;
-	position: relative;
-	transform: rotate(45deg);
-	transition: all .4s cubic-bezier(0.650, -0.600, 0.240, 1.650);
-}
-.search-wrapper.active .input-holder .search-icon span {
-	transform: rotate(315deg);
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  position: relative;
 }
 .search-wrapper .input-holder .search-icon span::before,
 .search-wrapper .input-holder .search-icon span::after {
-	position: absolute;
-	content:'';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: currentColor;
+  content: "";
+  display: block;
 }
+
+/* 구체적 모양(필요 시 조정) */
 .search-wrapper .input-holder .search-icon span::before {
-	  width: 4px;
-    height: 13px;
-    left: 9px;
-    top: 10px;
-    border-radius: 2px;
-    background: #FE5F55;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 .search-wrapper .input-holder .search-icon span::after {
-    width: 20px;
-    height: 20px;
-    left: 0px;
-    top: -6px;
-    border-radius: 16px;
-    border: 4px solid #FE5F55;
+  width: 2px;
+  height: 8px;
+  transform: translate(-20%, -20%) rotate(45deg);
+  transform-origin: center;
 }
-.search-wrapper.active .close {
-    position: absolute;
-    left: 322px;
-    transform: rotate(45deg);
-    transition: all .6s 
-    cubic-bezier(0.000, 0.105, 0.035, 1.570);
-    transition-delay: 0.5s;
-}
+
+/* 닫기(엑스) 버튼: 입력박스 오른쪽 외부에 고정 (입력창 확장/축소해도 위치 유지) */
 .search-wrapper .close {
-	position: absolute;
-    z-index: 1;
-    width: 25px;
-    height: 25px;
-    top: 15px;
-    right: 20px;
-    cursor: pointer;
-    transform: rotate(-180deg);
-    transition: all .3s 
-    cubic-bezier(0.285, -0.450, 0.935, 0.110);
-      transition-delay: 0.2s;
+  position: absolute;
+  right: -44px;                /* 입력박스 오른쪽 조금 바깥에 고정 */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1320;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
 }
+
+/* active 상태에서도 높이/정렬 유지 */
+.search-wrapper.active,
+.search-wrapper.active .input-holder,
+.search-wrapper.active .input-holder .search-input {
+  height: 56px;
+}
+
+/* month 버튼 고정 너비 및 줄바꿈 방지 */
+.month-btn {
+  min-width: 200px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+/* 작은 화면(모바일)에서 간격/크기 조정 */
 @media (max-width: 480px) {
-  .search-wrapper.active .close {
-    right: 0;
-    transform: translateY(20%) rotate(45deg);
-  }
+  .search-wrapper { top: 16%; height: 52px; width: calc(100% - 40px); left: 50%; transform: translate(-50%, 0); }
+  .search-wrapper .input-holder .search-input { height: 40px; padding-right: 44px; }
+  .search-wrapper .close { right: -40px; }
+  .month-btn { min-width: 140px; font-size: 14px; }
+}
+
+/* 안전장치: bootstrap이 덮어쓴 스타일 리셋 우선 적용 */
+.search-wrapper *, .search-wrapper { box-sizing: border-box; }
+
+/* active 상태에서도 높이/정렬 유지 */
+.search-wrapper.active,
+.search-wrapper.active .input-holder,
+.search-wrapper.active .input-holder .search-input {
+  height: 56px;
 }
 
 .search-wrapper .close::before,
