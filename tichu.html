@@ -328,58 +328,6 @@
         $('.side-menu__close, .side-overlay').on('click', closeMenu);
       })();
 
-      
-      /* ---------------------------
-          1. 카카오맵 스크립트 로드
-      ---------------------------- */
-      function loadKakaoScript() {
-          var script = document.createElement('script');
-          script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=23dbc639690beb853105f72b98c93a4a&autoload=false";
-          script.onload = function() {
-              kakao.maps.load(initMap);
-          };
-          document.head.appendChild(script);
-      }
-
-      /* ---------------------------
-          2. 정확한 지도 그리기
-      ---------------------------- */
-      function initMap() {
-          var mapContainer = document.getElementById('map');
-
-          // ⭐ 여기에 정확 좌표 넣음
-          var position = new kakao.maps.LatLng(37.2171063939256, 126.960080086911);
-
-          var mapOption = {
-              center: position,
-              level: 3
-          };
-
-          var map = new kakao.maps.Map(mapContainer, mapOption);
-
-          var marker = new kakao.maps.Marker({
-              position: position
-          });
-
-          marker.setMap(map);
-      }
-
-      /* ---------------------------
-          3. 주소 복사 기능 
-      ---------------------------- */
-      document.addEventListener("DOMContentLoaded", function () {
-          document.getElementById("copy-address-btn").addEventListener("click", function () {
-              const text = document.getElementById("address-text").textContent;
-
-              navigator.clipboard.writeText(text)
-                  .then(() => alert("📌 주소가 복사되었습니다!"))
-                  .catch(() => alert("❌ 복사가 지원되지 않는 환경입니다.\nHTTPS 환경에서 실행해주세요."));
-          });
-      });
-
-      // ⭐ 실행
-      loadKakaoScript();
-
       // 각 제목(.tichu-title)을 클릭하면 아래 내용을 열고 닫는 아코디언 기능 코드
       document.querySelectorAll(".tichu-title").forEach((title) => {
         title.addEventListener("click", function () {
@@ -391,11 +339,6 @@
           content.style.display = isOpen ? "none" : "block";
         });
       });
-    </script>
-
-    <script 
-        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=23dbc639690beb853105f72b98c93a4a&autoload=false"
-        onload="kakao.maps.load(initMap)">
     </script>
 </body>
 </html>
