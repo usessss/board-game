@@ -106,7 +106,7 @@ body {
 }
 .search-wrapper {
 	position: absolute;
-	top: 22%;
+	top: 23%;
 }
 .search-wrapper .input-holder {
   margin-left: 10px;
@@ -121,7 +121,7 @@ body {
 
 .search-wrapper.active .input-holder {
 	  position: fixed;
-    top: 154px;
+    top: 204px;
     left: 10px;
     width: 290px;
     border-radius: 50px;
@@ -168,8 +168,8 @@ body {
     transition: all .3s ease-in-out;
 }
 .search-wrapper.active .input-holder .search-icon {
-	  width: 37px;
-    height: 37px;
+	  width: 40px;
+    height: 40px;
     margin: 10px;
     border-radius: 50%;
 }
@@ -192,17 +192,33 @@ body {
 }
 .search-wrapper .input-holder .search-icon span::before {
 	  width: 4px;
-    height: 13px;
-    left: 9px;
-    top: 10px;
+    height: 12px;
+    left: 3px;
+    top: 11px;
     border-radius: 2px;
     background: #FE5F55;
 }
-.search-wrapper .input-holder .search-icon span::after {
+.search-wrapper.active .input-holder .search-icon span::before {
+    width: 4px;
+    height: 11px;
+    left: 17px;
+    top: 7px;
+    border-radius: 2px;
+    background: #FE5F55;
+}
+.search-wrapper.active .input-holder .search-icon span::after {
     width: 20px;
     height: 20px;
-    left: 0px;
-    top: -6px;
+    left: 10px;
+    top: -11px;
+    border-radius: 16px;
+    border: 4px solid #FE5F55;
+}
+.search-wrapper .input-holder .search-icon span::after {
+    width: 22px;
+    height: 22px;
+    left: -6px;
+    top: -10px;
     border-radius: 16px;
     border: 4px solid #FE5F55;
 }
@@ -226,12 +242,6 @@ body {
     transition: all .3s 
     cubic-bezier(0.285, -0.450, 0.935, 0.110);
       transition-delay: 0.2s;
-}
-@media (max-width: 480px) {
-  .search-wrapper.active .close {
-    right: 0;
-    transform: translateY(20%) rotate(45deg);
-  }
 }
 
 .search-wrapper .close::before,
@@ -276,7 +286,7 @@ ul.dropdown-menu li a.dropdown-item {
 
 .btn-group>.btn {
     font-size: small !important;
-    margin-top: 40px;
+    margin: 160px 0 10px 20px;
 }
 
 .fc .fc-toolbar.fc-header-toolbar {
@@ -330,7 +340,6 @@ ul.dropdown-menu li a.dropdown-item {
 .fc .fc-toolbar {
     align-items: center;
     display: flex;
-    /* justify-content: space-between; */
 }
 
 .fc td, .fc th {
@@ -382,7 +391,6 @@ ul.dropdown-menu li a.dropdown-item {
     font-weight: 900;
 }
 
-/* + ?��보기 ?���? ?�� ?��?�� 모달 ?��?��(?���? '?��' ?��?�� �? ?�� 보이�?) */
 .fc-more-popover-misc span {
   display: none;
 }
@@ -421,18 +429,19 @@ ul.dropdown-menu li a.dropdown-item {
 /* money.html */
 section.pay-section .account-box {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  align-items: center; /* 수직 중앙 정렬 */
+  gap: 10px;           /* 이미지와 텍스트 사이 간격 */
+  margin-bottom: 10px;
 }
-section.pay-section .account-box div > img.kakao-logo {
+
+section.pay-section .account-box img.kakao-logo {
   width: 50px;
 }
 
 section.pay-section h3 ,
 section.pay-section h4 ,
 section.pay-section .account-box div > span#account-number {
-  font-size: 20px;
+  font-size: 30px;
   color: rgb(255, 255, 52) !important;
   text-shadow:
     -1px -1px 0 #333,
@@ -453,7 +462,7 @@ section.pay-section p.pay-desc {
 }
 
 div.bank-icons .bank-icon-flex span.bank-title {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: rgb(255, 255, 52);
   text-shadow:
     -1px -1px 0 #333,
@@ -468,25 +477,12 @@ section.pay-section h4 {
 
 section.pay-section h3 {
   margin: 50px 0 25px 0;
-  text-align: center;
-}
-
-/* section.pay-section p.pay-desc {
-  margin: 30px 0 30px 0;
-  font-size: small; color: seashell;
-  text-align: center;
-} */
-
-section.pay-section div.eyebtn {
-  display: flex; 
-  justify-content: center;
 }
 
 .bank-icons {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 25px;
+  gap: 15%;
+  margin-left: 10px;
 }
 .bank-icons .bank-title {
   font-size: 15px;
@@ -599,7 +595,7 @@ button {
   color: var(--gray1);
   cursor: pointer;
   letter-spacing: 1px;
-  min-width: 9em;
+  min-width: 20%;
   outline: 0.1875em solid transparent;
   transition: outline 0.1s linear;
   -webkit-tap-highlight-color: transparent;
@@ -608,8 +604,8 @@ button {
 
 /* cover */
 .creepy-btn__cover {
+  font-size: x-large;
   position: relative;
-  /* background-color: var(--primary5); */
   background-color: hsl(55.75deg 83.62% 57.39%);
   color: #000000;
   box-shadow: 0 0 0 0.125em var(--black) inset;
@@ -689,5 +685,186 @@ button {
   96% {
     animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
     height: 0;
+  }
+}
+
+/* section.tichu-section {
+  margin: 30px 0 30px 10px;
+} */
+section.tichu-section h3 {
+  /* margin: 50px 0 25px 0; */
+  text-align: center;
+  font-size: 30px;
+  color: rgb(105, 75, 241);
+}
+section.tichu-section div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+section.tichu-section img {
+  width: 500px;
+  border-radius: 50px;
+}
+section.tichu-section a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+  .search-wrapper.active .close {
+    right: 0;
+    transform: translateY(20%) rotate(45deg);
+  }
+
+  div.month-selector.btn-group > .btn {
+    font-size: small;
+    margin-top: 120px;
+  }
+
+  .search-wrapper {
+    position: absolute;
+    top: 24%;
+  }
+
+  .search-wrapper.active .input-holder {
+	  position: fixed;
+    top: 158px;
+    left: 10px;
+    width: 290px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, .5);
+    transition: all .5s 
+    cubic-bezier(0.0, 0.105, 0.035, 1.570);
+  }
+
+  .search-wrapper .input-holder .search-icon span::before {
+	  width: 4px;
+    height: 12px;
+    left: 7px;
+    top: 14px;
+    border-radius: 2px;
+    background: #FE5F55;
+  }
+  .search-wrapper.active .input-holder .search-icon span::before {
+      width: 4px;
+      height: 11px;
+      left: 11px;
+      top: 12px;
+      border-radius: 2px;
+      background: #FE5F55;
+  }
+  .search-wrapper.active .input-holder .search-icon span::after {
+      width: 20px;
+      height: 20px;
+      left: 3px;
+      top: -4px;
+      border-radius: 16px;
+      border: 4px solid #FE5F55;
+  }
+  .search-wrapper .input-holder .search-icon span::after {
+      width: 22px;
+      height: 22px;
+      left: -2px;
+      top: -6px;
+      border-radius: 16px;
+      border: 4px solid #FE5F55;
+  }
+
+  .search-wrapper .input-holder .search-icon {
+    width: 50px;
+    height: 50px;
+    border: 0;
+    outline: 0;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+    float: right;
+    transition: all .3s ease-in-out;
+  }
+  .search-wrapper.active .input-holder .search-icon {
+      width: 40px;
+      height: 40px;
+      margin: 10px;
+      border-radius: 50%;
+  }
+
+  div.bank-icons .bank-icon-flex span.bank-title {
+    font-size: 0.8rem;
+    color: rgb(255, 255, 52);
+    text-shadow:
+      -1px -1px 0 #333,
+      1px -1px 0 #333,
+      -1px  1px 0 #333,
+      1px  1px 0 #333;
+  }
+
+  .bank-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+  }
+
+  section.pay-section h3 ,
+  section.pay-section h4 ,
+  section.pay-section .account-box div > span#account-number {
+    font-size: 17px;
+    color: rgb(255, 255, 52) !important;
+    text-shadow:
+      -1px -1px 0 #333,
+      1px -1px 0 #333,
+      -1px  1px 0 #333,
+      1px  1px 0 #333;
+  }
+
+  .creepy-btn {
+    position: relative;
+    background-color: var(--black);
+    border-radius: 1.25em;
+    color: var(--gray1);
+    cursor: pointer;
+    letter-spacing: 1px;
+    width: 55%;
+    outline: 0.1875em solid transparent;
+    transition: outline 0.1s 
+linear;
+    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+  }
+
+  .creepy-btn__cover {
+    font-size: medium;
+    position: relative;
+    background-color: hsl(55.75deg 83.62% 57.39%);
+    color: #000000;
+    box-shadow: 0 0 0 0.125em var(--black) inset;
+    padding: 0.5em 1em;
+    border-radius: inherit;
+    display: block;
+    inset: 0;
+    transform-origin: 1.25em 50%;
+    transition: background-color var(--trans-dur), transform var(--trans-dur) 
+      cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  section.tichu-section h3 {
+    /* margin: 50px 0 25px 0; */
+    text-align: center;
+    font-size: small;
+    color: rgb(105, 75, 241);
+  }
+  section.tichu-section img {
+    width: 100%;
+    border-radius: 50px;
+  }
+  section.tichu-section a {
+    font-size: large;
+    margin-top: 10px;
   }
 }
