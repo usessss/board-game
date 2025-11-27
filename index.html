@@ -213,6 +213,13 @@
 
             // 삭제
             if (newName === null || newName.trim() === "") {
+               // 🔥 삭제 확인창 추가
+              const isDelete = confirm("정말로 삭제하시겠습니까?");
+              if (!isDelete) {
+                alert("삭제가 취소되었습니다.");
+                return;
+              }
+              
               await deleteAttendance(id);
               info.event.remove();
               alert("삭제 완료!");
