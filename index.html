@@ -113,6 +113,30 @@
 
     <div id='calendar'></div>
 
+    <!-- 색상 선택 모달 -->
+    <div id="colorModal" class="color-modal" style="
+      display:none; 
+      position: fixed; 
+      inset: 0; 
+      background: rgba(0,0,0,0.5); 
+      justify-content: center; 
+      align-items: center;
+      z-index: 5000;
+    ">
+      <div style="background:#fff; padding:20px; border-radius:10px; width:250px;">
+        <h3 style="margin-top:0;">색상 선택</h3>
+
+        <label>컬러피커</label>
+        <input type="color" id="colorPicker" style="width:100%; height:40px;">
+
+        <label style="margin-top:10px; display:block;">HEX 코드</label>
+        <input type="text" id="colorHex" maxlength="7" placeholder="#000000" style="width:100%; padding:5px;">
+
+        <button id="colorOk" style="margin-top:15px; width:100%; padding:8px; background:#2a8; color:#fff; border:none; border-radius:5px;">확인</button>
+        <button id="colorCancel" style="margin-top:5px; width:100%; padding:8px; background:#ccc; border:none; border-radius:5px;">취소</button>
+      </div>
+    </div>
+
     <script>
       // side menu toggle
       (function(){
@@ -137,10 +161,10 @@
       // Firebase CRUD 함수
       // ------------------------------
 
-      async function saveAttendance(date, name) {
+      async function saveAttendance(date, name, color) {
         const newRef = window.dbPush(window.dbRef(window.db, "attendance"));
-        await window.dbSet(newRef, { date, name });
-        return { id: newRef.key, date, name };
+        await window.dbSet(newRef, { date, name, color });
+        return { id: newRef.key, date, name, color };
       }
 
       async function deleteAttendance(id) {
@@ -161,7 +185,9 @@
               id: key,
               title: item.name,
               start: item.date,
-              allDay: true
+              allDay: true,
+              backgroundColor: item.color || "#3788d8",
+              borderColor: item.color || "#3788d8"
             });
           });
         }
@@ -187,18 +213,35 @@
           dateClick: async function(info) {
             const date = info.dateStr;
             const name = prompt(date + " 출석 이름 입력");
-
             if (!name) return;
 
-            const result = await saveAttendance(date, name);
-            calendar.addEvent({
-              id: result.id,
-              title: name,
-              start: date,
-              allDay: true
-            });
+            // 색상 선택 모달 열기
+            const modal = document.querySelector("#colorModal");
+            modal.style.display = "flex";
 
-            alert("출석 등록 완료!");
+            // 확인 클릭
+            document.querySelector("#colorOk").onclick = async () => {
+              const color = document.querySelector("#colorHex").value || "#000000";
+              modal.style.display = "none";
+
+              const result = await saveAttendance(date, name, color);
+
+              calendar.addEvent({
+                id: result.id,
+                title: name,
+                start: date,
+                allDay: true,
+                backgroundColor: color,
+                borderColor: color
+              });
+
+              alert("출석 등록 완료!");
+            };
+
+            // 취소 클릭
+            document.querySelector("#colorCancel").onclick = () => {
+              modal.style.display = "none";
+            };
           },
 
           // 이벤트 클릭 → 수정/삭제
@@ -207,19 +250,18 @@
             const id = info.event.id;
 
             const newName = prompt(
-              "이름 수정 또는 삭제할 수 있어요\n(빈칸 또는 취소하면 삭제)",
+              "이름 수정 또는 삭제할 수 있어요\n(빈칸 또는 취소하면 삭제)", 
               oldName
             );
 
             // 삭제
             if (newName === null || newName.trim() === "") {
-               // 🔥 삭제 확인창 추가
               const isDelete = confirm("정말로 삭제하시겠습니까?");
               if (!isDelete) {
                 alert("삭제가 취소되었습니다.");
                 return;
               }
-              
+
               await deleteAttendance(id);
               info.event.remove();
               alert("삭제 완료!");
@@ -249,17 +291,36 @@
 
           let today = new Date().toISOString().split("T")[0];
 
-          const result = await saveAttendance(today, name);
+          const result = await saveAttendance(today, name, "#3788d8");
           calendar.addEvent({
             id: result.id,
             title: name,
             start: today,
-            allDay: true
+            allDay: true,
+            backgroundColor: result.color,
+            borderColor: result.color
           });
 
           alert("오늘 출석 완료!");
         });
       });
+
+      // ------------------------------
+      // 컬러피커 ↔ HEX 동기화
+      // ------------------------------
+      const colorPicker = document.querySelector("#colorPicker");
+      const colorHex = document.querySelector("#colorHex");
+
+      colorPicker.addEventListener("input", function () {
+        colorHex.value = this.value.toUpperCase();
+      });
+
+      colorHex.addEventListener("input", function () {
+        const v = this.value.trim();
+        const valid = /^#([0-9A-Fa-f]{6})$/.test(v);
+        if (valid) colorPicker.value = v;
+      });
+
     </script>
 </body>
 </html>
