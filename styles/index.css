@@ -688,11 +688,8 @@ button {
   }
 }
 
-/* section.tichu-section {
-  margin: 30px 0 30px 10px;
-} */
+/* tichu.html */
 section.tichu-section h3 {
-  /* margin: 50px 0 25px 0; */
   text-align: center;
   font-size: 30px;
   color: rgb(105, 75, 241);
@@ -710,6 +707,61 @@ section.tichu-section img {
 section.tichu-section a {
   text-decoration: none;
   cursor: pointer;
+}
+
+div.tichu-card {
+  background: #fff;
+  padding: 18px;
+  margin: 20px 0;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  font-size: 14px;
+  line-height: 1.6;
+  font-family: "Archivo", sans-serif;
+}
+
+div.tichu-card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #0d7a56;
+}
+
+div.tichu-card .tichu-accordion {
+  border-top: 1px solid #eee;
+}
+
+div.tichu-card .tichu-accordion .tichu-item:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+.tichu-title {
+  font-size: larger;
+  color: #02681d;
+  padding: 15px 0;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tichu-title span {
+  font-size: 18px;
+  color: #0d7a56;
+}
+
+.tichu-content {
+  display: none;
+  padding: 10px 0 15px 0;
+  color: #333;
+}
+
+.tichu-content ul {
+  padding-left: 18px;
+}
+.tichu-content ul li {
+  font-size: larger;
+  font-weight: 500;
 }
 
 /* 모바일 */
@@ -866,5 +918,15 @@ linear;
   section.tichu-section a {
     font-size: large;
     margin-top: 10px;
+  }
+
+  div.tichu-card h2 {
+    font-size: medium;
+    margin-bottom: 10px;
+    color: #0d7a56;
+  }
+  .tichu-content ul li {
+    font-size: small;
+    font-weight: 500;
   }
 }
