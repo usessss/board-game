@@ -366,8 +366,8 @@ ul.dropdown-menu li a.dropdown-item {
 }
 
 div.fc-popover {
-    top: 28.8px;
-    left: 83.4px;
+    top: 28.8px !important;
+    left: 83.4px !important;
     border-radius: 10px;
 }
 
