@@ -256,6 +256,14 @@
 
             // 삭제
             if (newName === null || newName.trim() === "") {
+              // 관리자 비밀번호 확인
+              const adminPass = prompt("관리자 비밀번호를 입력하세요");
+
+              if (adminPass !== "1111") {   // ← 원하는 비밀번호로 바꿔
+                alert("삭제 권한이 없습니다!");
+                return;
+              }
+
               const isDelete = confirm("정말로 삭제하시겠습니까?");
               if (!isDelete) {
                 alert("삭제가 취소되었습니다.");
