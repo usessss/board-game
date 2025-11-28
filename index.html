@@ -313,6 +313,37 @@
         });
       });
 
+      // "더보기" popover 인원수 자동 표시
+      document.addEventListener("click", function (e) {
+        // popover 열릴 때 FullCalendar는 fc-popover 클래스를 가진 요소를 생성함
+        setTimeout(() => {
+          const popover = document.querySelector(".fc-popover"); 
+          if (!popover) return;
+
+          // 이미 카운트가 추가된 경우 중복 추가 방지
+          if (popover.querySelector(".att-count")) return;
+
+          // popover 내부에서 이벤트 리스트 가져오기
+          const events = popover.querySelectorAll(".fc-daygrid-event");
+
+          const count = events.length;
+
+          // 카운트 표시 엘리먼트 생성
+          const label = document.createElement("div");
+          label.className = "att-count";
+          label.style.fontSize = "14px";
+          label.style.color = "darkslateblue";
+          label.style.fontWeight = "600";
+          label.style.margin = "5px 0 10px 0";
+          label.style.padding = "10px 8px";
+          label.style.borderBottom = "1px solid #ddd";
+          label.textContent = `출석 인원 : ${count}명`;
+
+          // popover 맨 위에 넣기
+          popover.prepend(label);
+        }, 10);
+      });
+
       // ------------------------------
       // 컬러피커 ↔ HEX 동기화
       // ------------------------------

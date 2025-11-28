@@ -251,7 +251,7 @@ body {
 	background: #FE5F55;
 	border-radius: 2px;
 }
-/* ?ï¿½ï¿½ï¿½? X ë²„íŠ¼ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ë§Œë“ ï¿½? rotate ?ï¿½ï¿½?ï¿½ï¿½ */
+/* ?ï¿½ï¿½ï¿?? X ë²„íŠ¼ ?ï¿½ï¿½?ï¿½ï¿½ï¿??ï¿?? ë§Œë“ ï¿?? rotate ?ï¿½ï¿½?ï¿½ï¿½ */
 .search-wrapper .close::before {
 	width: 5px;
 	height: 25px;
@@ -365,6 +365,12 @@ ul.dropdown-menu li a.dropdown-item {
   color: blue !important;
 }
 
+div.fc-popover {
+    top: 28.8px;
+    left: 83.4px;
+    border-radius: 10px;
+}
+
 .fc .fc-popover-close {
     color: #ff0505;
     cursor: pointer;
@@ -429,8 +435,8 @@ ul.dropdown-menu li a.dropdown-item {
 /* money.html */
 section.pay-section .account-box {
   display: flex;
-  align-items: center; /* ìˆ˜ì§ ì¤‘ì•™ ì •ë ¬ */
-  gap: 10px;           /* ì´ë¯¸ì§€ì™€ í…ìŠ¤íŠ¸ ì‚¬ì´ ê°„ê²© */
+  align-items: center; /* ?ˆ˜ì§? ì¤‘ì•™ ? •? ¬ */
+  gap: 10px;           /* ?´ë¯¸ì????? ?…?Š¤?Š¸ ?‚¬?´ ê°„ê²© */
   margin-bottom: 10px;
 }
 
@@ -764,7 +770,7 @@ div.tichu-card .tichu-accordion .tichu-item:not(:last-child) {
   font-weight: 500;
 }
 
-/* ëª¨ë°”ì¼ */
+/* ëª¨ë°”?¼ */
 @media (max-width: 480px) {
   .search-wrapper.active .close {
     right: 0;
