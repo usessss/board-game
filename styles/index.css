@@ -193,7 +193,6 @@ body {
   content: "";
   left: 50%;
   top: 50%;
-  transform-origin: center;
 }
 .search-wrapper .input-holder .search-icon span::before {
 	  width: 20%;
@@ -234,16 +233,16 @@ body {
 }
 .search-wrapper .close {
 	position: absolute;
-    z-index: 1;
-    width: 25px;
-    height: 25px;
-    top: 15px;
-    right: 20px;
-    cursor: pointer;
-    transform: rotate(-180deg);
-    transition: all .3s 
-    cubic-bezier(0.285, -0.450, 0.935, 0.110);
-      transition-delay: 0.2s;
+  z-index: 1;
+  width: 25px;
+  height: 25px;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  transform: rotate(-180deg);
+  transition: all .3s 
+  cubic-bezier(0.285, -0.450, 0.935, 0.110);
+    transition-delay: 0.2s;
 }
 
 .search-wrapper .close::before,
