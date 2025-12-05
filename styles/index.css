@@ -202,17 +202,19 @@ body {
     background: #FE5F55;
 }
 .search-wrapper.active .input-holder .search-icon span::before {
-    width: 20%;
-    height: 50%;
-    transform: translate(193%, -67%);
-    border-radius: 25%;
+    width: 5px;
+    height: 11px;
+    top: 7px;
+    left: 31px;
+    border-radius: 30px;
     background: #FE5F55;
 }
 .search-wrapper.active .input-holder .search-icon span::after {
-    width: 92%;
-    height: 92%;
-    transform: translate(8%, -118%);
-    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    left: 31px;
+    top: 7px;
+    border-radius: 50px;
     border: 4px solid #FE5F55;
 }
 .search-wrapper .input-holder .search-icon span::after {
@@ -225,6 +227,7 @@ body {
 
 .search-wrapper.active .close {
     position: absolute;
+    top: 12px;
     left: 322px;
     transform: rotate(45deg);
     transition: all .6s 
@@ -436,8 +439,8 @@ div.fc-popover {
 /* money.html */
 section.pay-section .account-box {
   display: flex;
-  align-items: center; /* ?���? 중앙 ?��?�� */
-  gap: 10px;           /* ?��미�????? ?��?��?�� ?��?�� 간격 */
+  align-items: center;
+  gap: 10px;          
   margin-bottom: 10px;
 }
 
@@ -771,9 +774,50 @@ div.tichu-card .tichu-accordion .tichu-item:not(:last-child) {
   font-weight: 500;
 }
 
-/* 모바?�� */
+@media (max-width: 600px) {
+  .search-wrapper.active .close {
+    top: 8px;
+    right: 0;
+    transform: translateY(20%) rotate(45deg);
+  }
+
+  .search-wrapper .input-holder .search-icon span::before {
+	  width: 4px;
+    height: 12px;
+    left: 7px;
+    top: 14px;
+    border-radius: 2px;
+    background: #FE5F55;
+  }
+  .search-wrapper.active .input-holder .search-icon span::before {
+      width: 4px;
+      height: 11px;
+      left: 19px;
+      top: 16px;
+      border-radius: 2px;
+      background: #FE5F55;
+  }
+  .search-wrapper.active .input-holder .search-icon span::after {
+      width: 20px;
+      height: 20px;
+      left: 21px;
+      top: 17px;
+      border-radius: 16px;
+      border: 4px solid #FE5F55;
+  }
+  .search-wrapper .input-holder .search-icon span::after {
+      width: 22px;
+      height: 22px;
+      left: -2px;
+      top: -6px;
+      border-radius: 16px;
+      border: 4px solid #FE5F55;
+  }
+}
+
 @media (max-width: 480px) {
   .search-wrapper.active .close {
+    top: -30px;
     right: 0;
     transform: translateY(20%) rotate(45deg);
   }
@@ -810,16 +854,16 @@ div.tichu-card .tichu-accordion .tichu-item:not(:last-child) {
   .search-wrapper.active .input-holder .search-icon span::before {
       width: 4px;
       height: 11px;
-      left: 11px;
-      top: 12px;
+      left: 20px;
+      top: 16px;
       border-radius: 2px;
       background: #FE5F55;
   }
   .search-wrapper.active .input-holder .search-icon span::after {
       width: 20px;
       height: 20px;
-      left: 3px;
-      top: -4px;
+      left: 21px;
+      top: 16px;
       border-radius: 16px;
       border: 4px solid #FE5F55;
   }
@@ -891,8 +935,7 @@ div.tichu-card .tichu-accordion .tichu-item:not(:last-child) {
     letter-spacing: 1px;
     width: 55%;
     outline: 0.1875em solid transparent;
-    transition: outline 0.1s 
-linear;
+    transition: outline 0.1s linear;
     -webkit-tap-highlight-color: transparent;
     overflow: hidden;
   }
